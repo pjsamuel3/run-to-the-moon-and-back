@@ -1,280 +1,154 @@
 {
-  "last_updated": "2026-04-18T09:30:00Z",
+  "last_updated": "2026-04-18T20:31:31Z",
   "goal_km": 768800,
   "challenge_start": "2026-01-01",
   "runners": [
     {
-      "name": "Pete Samuel",
-      "strava_handle": "pete_samuel",
-      "total_km": 342.5,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 12.3, "activity": "Run", "name": "Saturday long run" },
-        { "date": "2026-04-15", "distance_km": 8.1,  "activity": "Run", "name": "Easy Tuesday" },
-        { "date": "2026-04-12", "distance_km": 21.1, "activity": "Run", "name": "Half marathon PB!" }
-      ]
-    },
-    {
-      "name": "Sarah Chen",
-      "strava_handle": "sarahchen_runs",
-      "total_km": 287.3,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 10.5, "activity": "Run", "name": "Morning 10k" },
-        { "date": "2026-04-13", "distance_km": 15.2, "activity": "Run", "name": "Trail Sunday" },
-        { "date": "2026-04-09", "distance_km": 7.8,  "activity": "Run", "name": "Lunch run" }
-      ]
-    },
-    {
-      "name": "Tom Walsh",
-      "strava_handle": "tomwalsh",
-      "total_km": 245.8,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 14.0, "activity": "Run", "name": "Friday feeling" },
-        { "date": "2026-04-14", "distance_km": 9.5,  "activity": "Run", "name": "Tuesday base" },
-        { "date": "2026-04-11", "distance_km": 11.2, "activity": "Run", "name": "Parkrun + warm-up" }
-      ]
-    },
-    {
-      "name": "Emma Roberts",
-      "strava_handle": "emma_r",
-      "total_km": 198.4,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 8.7,  "activity": "Run", "name": "Recovery run" },
-        { "date": "2026-04-12", "distance_km": 12.0, "activity": "Run", "name": "12k tempo" },
-        { "date": "2026-04-08", "distance_km": 6.4,  "activity": "Walk", "name": "Active recovery" }
-      ]
-    },
-    {
-      "name": "Jake Morrison",
-      "strava_handle": "jakemozz",
-      "total_km": 187.2,
-      "runs": [
-        { "date": "2026-04-16", "distance_km": 22.5, "activity": "Run", "name": "Long slow distance" },
-        { "date": "2026-04-10", "distance_km": 10.1, "activity": "Run", "name": "Easy 10k" },
-        { "date": "2026-04-06", "distance_km": 8.3,  "activity": "Ride", "name": "Bike commute" }
-      ]
-    },
-    {
-      "name": "Lisa Park",
-      "strava_handle": "lisapark",
-      "total_km": 165.9,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 7.2,  "activity": "Run", "name": "Pre-work 7k" },
-        { "date": "2026-04-13", "distance_km": 9.8,  "activity": "Run", "name": "Sunday session" },
-        { "date": "2026-04-09", "distance_km": 5.6,  "activity": "Run", "name": "Lunchtime legs" }
-      ]
-    },
-    {
-      "name": "Ben Taylor",
-      "strava_handle": "bentaylor",
-      "total_km": 143.6,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 11.4, "activity": "Run", "name": "Intervals + cool-down" },
-        { "date": "2026-04-12", "distance_km": 6.7,  "activity": "Run", "name": "Easy run" },
-        { "date": "2026-04-07", "distance_km": 8.2,  "activity": "Run", "name": "Weekend warrior" }
-      ]
-    },
-    {
-      "name": "Mia Johnson",
-      "strava_handle": "miaj",
-      "total_km": 128.4,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 9.3,  "activity": "Run", "name": "Morning grind" },
-        { "date": "2026-04-14", "distance_km": 5.4,  "activity": "Run", "name": "Easy 5k" },
-        { "date": "2026-04-10", "distance_km": 7.1,  "activity": "Run", "name": "After work 7" }
-      ]
-    },
-    {
-      "name": "Chris Wong",
-      "strava_handle": "chriswong",
-      "total_km": 112.7,
-      "runs": [
-        { "date": "2026-04-16", "distance_km": 13.5, "activity": "Run", "name": "Long one" },
-        { "date": "2026-04-11", "distance_km": 8.9,  "activity": "Run", "name": "Steady Thursday" },
-        { "date": "2026-04-07", "distance_km": 6.2,  "activity": "Run", "name": "Short & sharp" }
-      ]
-    },
-    {
-      "name": "Amy Davis",
-      "strava_handle": "amydavis",
-      "total_km": 98.3,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 6.8,  "activity": "Run", "name": "Evening 7k" },
-        { "date": "2026-04-13", "distance_km": 9.5,  "activity": "Run", "name": "Sunday 10" },
-        { "date": "2026-04-09", "distance_km": 5.1,  "activity": "Run", "name": "Quick one" }
-      ]
-    },
-    {
-      "name": "Marcus Hill",
-      "strava_handle": "marcushill",
-      "total_km": 87.5,
-      "runs": [
-        { "date": "2026-04-15", "distance_km": 10.2, "activity": "Run", "name": "Crushing it" },
-        { "date": "2026-04-10", "distance_km": 7.4,  "activity": "Run", "name": "Midweek move" },
-        { "date": "2026-04-05", "distance_km": 4.8,  "activity": "Walk", "name": "Recovery walk" }
-      ]
-    },
-    {
-      "name": "Sophie Brown",
-      "strava_handle": "sophieb",
-      "total_km": 76.2,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 8.5,  "activity": "Run", "name": "Parkrun warm-up combo" },
-        { "date": "2026-04-12", "distance_km": 5.9,  "activity": "Run", "name": "6k easy" },
-        { "date": "2026-04-08", "distance_km": 6.1,  "activity": "Run", "name": "Suburban loop" }
-      ]
-    },
-    {
-      "name": "Dan Wilson",
-      "strava_handle": "danwilson",
-      "total_km": 68.9,
-      "runs": [
-        { "date": "2026-04-16", "distance_km": 7.3,  "activity": "Run", "name": "Solid 7" },
-        { "date": "2026-04-11", "distance_km": 5.5,  "activity": "Run", "name": "Lunch run" }
-      ]
-    },
-    {
-      "name": "Kate Murphy",
-      "strava_handle": "katemurphy",
-      "total_km": 54.3,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 9.1,  "activity": "Run", "name": "Long run Sunday" },
-        { "date": "2026-04-13", "distance_km": 4.7,  "activity": "Run", "name": "5k easy" }
-      ]
-    },
-    {
-      "name": "Liam Foster",
-      "strava_handle": "liamfoster",
-      "total_km": 48.7,
-      "runs": [
-        { "date": "2026-04-15", "distance_km": 6.4,  "activity": "Run", "name": "After work 6" },
-        { "date": "2026-04-09", "distance_km": 8.2,  "activity": "Run", "name": "Weekend 8k" }
-      ]
-    },
-    {
-      "name": "Zoe Clarke",
-      "strava_handle": "zoeclarke",
-      "total_km": 42.1,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 5.3,  "activity": "Run", "name": "Morning 5" },
-        { "date": "2026-04-12", "distance_km": 7.8,  "activity": "Run", "name": "Neighbourhood loop" }
-      ]
-    },
-    {
-      "name": "Ryan Kim",
-      "strava_handle": "ryankim",
-      "total_km": 38.6,
-      "runs": [
-        { "date": "2026-04-14", "distance_km": 8.6,  "activity": "Run", "name": "Long-ish run" },
-        { "date": "2026-04-08", "distance_km": 6.1,  "activity": "Ride", "name": "Saturday ride" }
-      ]
-    },
-    {
-      "name": "Natalie Lee",
-      "strava_handle": "natalielee",
-      "total_km": 32.4,
-      "runs": [
-        { "date": "2026-04-16", "distance_km": 7.5,  "activity": "Run", "name": "7.5k done!" },
-        { "date": "2026-04-10", "distance_km": 4.9,  "activity": "Run", "name": "Slow 5" }
-      ]
-    },
-    {
-      "name": "Oliver Scott",
-      "strava_handle": "oliverscott",
-      "total_km": 28.9,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 6.7,  "activity": "Run", "name": "Pre-dinner run" },
-        { "date": "2026-04-11", "distance_km": 5.8,  "activity": "Run", "name": "Casual 6k" }
-      ]
-    },
-    {
-      "name": "Hannah White",
-      "strava_handle": "hannahwhite",
-      "total_km": 24.5,
-      "runs": [
-        { "date": "2026-04-15", "distance_km": 8.3,  "activity": "Run", "name": "Best run this month" },
-        { "date": "2026-04-09", "distance_km": 4.2,  "activity": "Walk", "name": "Power walk" }
-      ]
-    },
-    {
-      "name": "James Turner",
-      "strava_handle": "jamesturner",
-      "total_km": 19.8,
-      "runs": [
-        { "date": "2026-04-13", "distance_km": 9.8,  "activity": "Run", "name": "10k attempt (close!)" },
-        { "date": "2026-04-07", "distance_km": 5.0,  "activity": "Run", "name": "5k baseline" }
-      ]
-    },
-    {
-      "name": "Lucy Martin",
-      "strava_handle": "lucymartin",
-      "total_km": 16.3,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 7.2,  "activity": "Run", "name": "Comeback run!" },
-        { "date": "2026-04-10", "distance_km": 5.1,  "activity": "Run", "name": "Back at it" }
-      ]
-    },
-    {
-      "name": "Alex Cooper",
-      "strava_handle": "alexcooper",
-      "total_km": 12.7,
-      "runs": [
-        { "date": "2026-04-15", "distance_km": 6.3,  "activity": "Run", "name": "Making progress" },
-        { "date": "2026-04-08", "distance_km": 5.0,  "activity": "Run", "name": "First 5k!" }
-      ]
-    },
-    {
-      "name": "Chloe Evans",
-      "strava_handle": "chloeevans",
-      "total_km": 9.4,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 9.4,  "activity": "Run", "name": "First double digit attempt" }
-      ]
-    },
-    {
-      "name": "Tyler Adams",
-      "strava_handle": "tyleradams",
-      "total_km": 7.2,
-      "runs": [
-        { "date": "2026-04-16", "distance_km": 7.2,  "activity": "Run", "name": "Getting started" }
-      ]
-    },
-    {
-      "name": "Maya Patel",
-      "strava_handle": "mayapatel",
-      "total_km": 5.8,
-      "runs": [
-        { "date": "2026-04-14", "distance_km": 5.8,  "activity": "Run", "name": "Finally did it" }
-      ]
-    },
-    {
-      "name": "Sam Hughes",
-      "strava_handle": "samhughes",
-      "total_km": 4.1,
-      "runs": [
-        { "date": "2026-04-18", "distance_km": 4.1,  "activity": "Walk", "name": "Gotta start somewhere" }
-      ]
-    },
-    {
-      "name": "Ella Thompson",
-      "strava_handle": "ellathompson",
-      "total_km": 2.6,
-      "runs": [
-        { "date": "2026-04-12", "distance_km": 2.6,  "activity": "Run", "name": "Couch to... just off the couch" }
-      ]
-    },
-    {
-      "name": "Will Baker",
-      "strava_handle": "willbaker",
-      "total_km": 1.2,
-      "runs": [
-        { "date": "2026-04-17", "distance_km": 1.2,  "activity": "Run", "name": "I hate you all" }
-      ]
-    },
-    {
-      "name": "Jess Green",
-      "strava_handle": "jessgreen",
+      "name": "Ben W",
+      "strava_handle": "ben.w",
+      "strava_name_key": "Ben_W",
       "total_km": 0,
       "runs": []
+    },
+    {
+      "name": "Ian R",
+      "strava_handle": "ian.r",
+      "strava_name_key": "Ian_R",
+      "total_km": 72.22,
+      "runs": [
+        {
+          "date": "",
+          "distance_km": 4.88,
+          "activity": "Run",
+          "name": "Afternoon Run"
+        },
+        {
+          "date": "",
+          "distance_km": 12.62,
+          "activity": "Run",
+          "name": "Morning Run"
+        },
+        {
+          "date": "",
+          "distance_km": 12.49,
+          "activity": "Run",
+          "name": "Morning Run"
+        },
+        {
+          "date": "",
+          "distance_km": 5.78,
+          "activity": "Run",
+          "name": "Afternoon Run"
+        },
+        {
+          "date": "",
+          "distance_km": 10.8,
+          "activity": "Run",
+          "name": "Morning Run"
+        },
+        {
+          "date": "",
+          "distance_km": 4.54,
+          "activity": "Hike",
+          "name": "Lunch Hike"
+        },
+        {
+          "date": "",
+          "distance_km": 12.27,
+          "activity": "Run",
+          "name": "Morning Run"
+        },
+        {
+          "date": "",
+          "distance_km": 8.84,
+          "activity": "Run",
+          "name": "Morning Run"
+        }
+      ]
+    },
+    {
+      "name": "Sten S",
+      "strava_handle": "sten.s",
+      "strava_name_key": "Sten_S",
+      "total_km": 25.88,
+      "runs": [
+        {
+          "date": "",
+          "distance_km": 5.15,
+          "activity": "Run",
+          "name": "Mollyfart \ud83d\udd25"
+        },
+        {
+          "date": "",
+          "distance_km": 5.3,
+          "activity": "Run",
+          "name": "L\u00f8p med hund"
+        },
+        {
+          "date": "",
+          "distance_km": 4.1,
+          "activity": "Run",
+          "name": "Jogg med hund"
+        },
+        {
+          "date": "",
+          "distance_km": 5.2,
+          "activity": "Run",
+          "name": "Kom i gang etter p\u00e5ske \ud83d\udc23"
+        },
+        {
+          "date": "",
+          "distance_km": 6.13,
+          "activity": "Run",
+          "name": "25 \u00e5r siden rekrutten og joggel\u00f8ypa p\u00e5 V\u00e6rnes."
+        }
+      ]
+    },
+    {
+      "name": "Peter S",
+      "strava_handle": "peter.s",
+      "strava_name_key": "Peter_S",
+      "total_km": 27.48,
+      "runs": [
+        {
+          "date": "",
+          "distance_km": 4.33,
+          "activity": "Walk",
+          "name": "Afternoon Walk"
+        },
+        {
+          "date": "",
+          "distance_km": 4.82,
+          "activity": "Walk",
+          "name": "Afternoon Walk"
+        },
+        {
+          "date": "",
+          "distance_km": 5.8,
+          "activity": "Run",
+          "name": "Night Run"
+        },
+        {
+          "date": "",
+          "distance_km": 3.23,
+          "activity": "Walk",
+          "name": "Evening Walk"
+        },
+        {
+          "date": "",
+          "distance_km": 5.64,
+          "activity": "Walk",
+          "name": "Lunch Walk"
+        },
+        {
+          "date": "",
+          "distance_km": 3.66,
+          "activity": "Walk",
+          "name": "Morning Walk"
+        }
+      ]
     }
-  ]
+  ],
+  "strava_club_id": 1287260,
+  "last_strava_sync": "2026-04-18T20:31:31Z"
 }

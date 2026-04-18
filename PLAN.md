@@ -2,18 +2,14 @@
 
 ## In Progress
 
-- [ ] **fix/mobile-leaderboard** — runner names truncating on iPhone (badge crushing name column)
+- [ ] **feature/strava-sync** — GitHub Actions sync from Strava club (this PR)
 
 ---
 
 ## Upcoming
 
-### Strava Integration
-- [ ] Spec: Strava OAuth + club sync architecture (SPEC.md update)
-- [ ] GitHub Action: OAuth token exchange + club member/activity sync to state.json
-- [ ] Admin script: one-time auth flow to get initial refresh token
-- [ ] UI: "Synced from Strava" timestamp + sync status on hero
-- [ ] UI: Admin club selection flow (pick which Strava club maps to the challenge)
+- [ ] UI: "Synced from Strava" badge on hero showing last sync timestamp
+- [ ] Playwright: add test for Strava sync workflow (mock state.json with strava fields)
 
 ---
 
@@ -24,3 +20,12 @@
 - [x] Playwright test suite (9 tests, all passing)
 - [x] Deployed to GitHub Pages
 - [x] SPEC.md, RECIPE.md (with Technical UI Tester skill)
+- [x] fix/mobile-leaderboard — runner names truncating on iPhone (PR #1, merged)
+- [x] SPEC.md: Strava integration v2 spec
+- [x] scripts/strava-auth.py — one-time OAuth flow
+- [x] scripts/list-clubs.py — list athlete clubs
+- [x] scripts/init-members.py — initialize runners from club members
+- [x] scripts/sync-strava.py — sync script used by GH Action
+- [x] .github/workflows/sync-strava.yml — runs every 3 hours
+- [x] GitHub Secrets set: STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_REFRESH_TOKEN, STRAVA_CLUB_ID
+- [x] Initial sync: 19 real activities from Fit 156 (club 1287260)
