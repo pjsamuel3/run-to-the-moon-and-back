@@ -3,504 +3,1027 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0D1B2A">
-  <title>PROJECT TITLE</title>
-  <meta name="description" content="PROJECT DESCRIPTION">
-  <meta property="og:title" content="PROJECT TITLE">
-  <meta property="og:description" content="PROJECT DESCRIPTION">
-  <meta property="og:image" content="HERO_IMAGE_URL">
-
-  <!--
-    FONTS — replace with your chosen Google Fonts
-    Current set: Playfair Display (display) + Source Serif 4 (body) + DM Sans (UI) + DM Mono (labels)
-    Pick at https://fonts.google.com — keep it to 3 families max
-  -->
+  <title>Run to the Moon &amp; Back</title>
+  <meta name="description" content="30 mates. One goal. 768,800 km to the moon and back.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ════════════════════════════════════════
-       RESET
-    ════════════════════════════════════════ */
+    /* ── RESET ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    img  { display: block; max-width: 100%; }
-    a    { color: inherit; }
-
-    /* ════════════════════════════════════════
-       DESIGN TOKENS — edit these first
-       Every colour, font, shadow and radius
-       in the site should reference these vars.
-    ════════════════════════════════════════ */
-    :root {
-      /* Palette */
-      --bg:          #FAFAF8;   /* page background */
-      --ink:         #0D1B2A;   /* primary text */
-      --ink-soft:    #3D4A58;   /* secondary text */
-      --accent:      #2A7C6F;   /* primary action / accent */
-      --accent-bg:   #E8F5F3;   /* tint of accent */
-      --hi:          #E8763A;   /* highlight / tag colour */
-      --hi-bg:       #FDF0E8;   /* tint of highlight */
-      --card-bg:     #FFFFFF;
-      --card-border: #E6E0D8;
-      --muted:       #7A7269;   /* metadata, placeholders */
-      --white:       #FFFFFF;
-
-      /* Typography */
-      --f-display: 'Playfair Display', Georgia, serif;
-      --f-body:    'Source Serif 4', Georgia, serif;
-      --f-ui:      'DM Sans', system-ui, sans-serif;
-      --f-mono:    'DM Mono', monospace;
-
-      /* Elevation */
-      --shadow-sm: 0 1px 4px rgba(13,27,42,.07);
-      --shadow-md: 0 4px 18px rgba(13,27,42,.11);
-
-      /* Radii */
-      --r-sm:   6px;
-      --r-md:   14px;
-      --r-pill: 999px;
-    }
-
-    /* ════════════════════════════════════════
-       BASE
-    ════════════════════════════════════════ */
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: var(--f-ui);
-      font-size: 16px;
-      line-height: 1.6;
+      font-family: var(--f-body);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 68px; /* mobile nav clearance */
     }
-    @media (min-width: 640px) { body { padding-bottom: 0; } }
 
-    /* ════════════════════════════════════════
-       NAVIGATION — desktop top / mobile bottom
-    ════════════════════════════════════════ */
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:          #0a0e1a;
+      --card-bg:     #141929;
+      --card-border: #1e2d4a;
+      --ink:         #f0f4ff;
+      --accent:      #00d4ff;
+      --accent-warm: #ff6b35;
+      --accent-bg:   rgba(0, 212, 255, .08);
+      --muted:       #5a6a8a;
+      --shadow-sm:   0 1px 4px rgba(0,0,0,.35);
+      --shadow-md:   0 4px 20px rgba(0,0,0,.45);
+      --r-sm:        6px;
+      --r-md:        14px;
+      --r-lg:        20px;
+      --r-pill:      999px;
+      --f-display:   'Exo 2', sans-serif;
+      --f-body:      'Inter', sans-serif;
+      --f-mono:      'JetBrains Mono', monospace;
+    }
 
-    /* Desktop */
+    /* ── LAYOUT ─────────────────────────────────────────────── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1rem; }
+    section { padding: 2.5rem 0; }
+    section + section { padding-top: 0; }
+
+    /* ── LOADING ─────────────────────────────────────────────── */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 1rem;
+    }
+    .loading-rocket {
+      font-size: 3rem;
+      animation: load-float 1s ease-in-out infinite alternate;
+    }
+    @keyframes load-float {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-14px); }
+    }
+    .loading-text {
+      font-family: var(--f-mono);
+      font-size: .75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    /* ── TOP NAV ─────────────────────────────────────────────── */
     .top-nav {
       display: none;
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250,250,248,.94);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,14,26,.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--card-border);
+      padding: .75rem 0;
     }
-    @media (min-width: 640px) {
-      .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 54px;
-        padding: 0 2rem;
-      }
-    }
-    .top-nav-brand {
+    .top-nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand {
       font-family: var(--f-display);
-      font-size: .95rem; font-weight: 700;
-      color: var(--ink); text-decoration: none;
+      font-weight: 800;
+      font-size: .9375rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -.01em;
     }
-    .top-nav-links { display: flex; list-style: none; }
-    .top-nav-links a {
-      font-family: var(--f-mono);
-      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none;
-      padding: .55rem .85rem; border-radius: var(--r-sm);
-      transition: color .15s, background .15s;
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 500;
+      transition: color .2s;
     }
-    .top-nav-links a:hover { color: var(--accent); background: var(--accent-bg); }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
 
-    /* Mobile fixed bottom */
+    /* ── BOTTOM NAV ─────────────────────────────────────────── */
     .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-      background: var(--white);
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(14, 20, 38, .97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-top: 1px solid var(--card-border);
       display: flex;
-      box-shadow: 0 -4px 24px rgba(13,27,42,.08);
-      padding-bottom: env(safe-area-inset-bottom, 0);
+      padding: .5rem 0;
+      padding-bottom: max(.5rem, env(safe-area-inset-bottom));
     }
-    @media (min-width: 640px) { .bottom-nav { display: none; } }
     .bottom-nav a {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: .55rem .2rem; min-height: 56px; gap: 3px;
-      text-decoration: none; color: var(--muted);
-      transition: color .15s;
-    }
-    .bottom-nav a.active, .bottom-nav a:hover { color: var(--accent); }
-    .bottom-nav-icon { font-size: 1.25rem; line-height: 1; }
-    .bottom-nav-label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .2rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .58rem;
       font-family: var(--f-mono);
-      font-size: .58rem; letter-spacing: .04em; text-transform: uppercase;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      transition: color .2s;
     }
+    .bottom-nav a .nav-icon { font-size: 1.375rem; line-height: 1; }
+    .bottom-nav a.active { color: var(--accent); }
 
-    /* ════════════════════════════════════════
-       HERO
-    ════════════════════════════════════════ */
-    .hero {
-      position: relative;
-      height: 100svh; min-height: 520px; max-height: 900px;
-      overflow: hidden; display: flex; align-items: flex-end;
+    /* ── HERO ───────────────────────────────────────────────── */
+    #hero {
+      padding-top: 2rem;
+      padding-bottom: 1.5rem;
+      min-height: calc(100svh - 58px);
+      display: flex;
+      align-items: center;
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background-color: #0D2B3E; /* fallback — always keep this */
-      /* background-image set by JS for load animation */
-      background-size: cover; background-position: center 35%;
-      transition: transform 8s ease; transform: scale(1.04);
-    }
-    .hero-bg.loaded { transform: scale(1); }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(10,20,35,.90) 0%, rgba(10,20,35,.45) 45%, rgba(10,20,35,.10) 100%);
-    }
-    .hero-content {
-      position: relative; z-index: 1;
-      width: 100%; max-width: 900px; margin: 0 auto;
-      padding: 3rem 1.5rem 2.5rem;
-    }
-    @media (min-width: 640px) { .hero-content { padding: 4rem 2.5rem 3.5rem; } }
+    #hero .container { width: 100%; }
 
     .hero-eyebrow {
       font-family: var(--f-mono);
-      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
-      color: rgba(255,255,255,.65); margin-bottom: .75rem;
+      font-size: .7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
     }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes dot-pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .25; }
+    }
+
     .hero-title {
       font-family: var(--f-display);
-      font-size: clamp(3.5rem, 14vw, 9rem);
-      font-weight: 900; line-height: .88; letter-spacing: -.03em;
-      color: #fff; margin-bottom: .6rem;
+      font-size: clamp(2.1rem, 9vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.06;
+      margin-bottom: 1.75rem;
+      letter-spacing: -.025em;
     }
-    .hero-sub {
-      font-family: var(--f-body); font-style: italic;
-      font-size: clamp(1rem, 2.8vw, 1.3rem);
-      color: rgba(255,255,255,.75); margin-bottom: 2.2rem;
-    }
-    .hero-pills { display: flex; gap: .45rem; flex-wrap: wrap; }
-    .hero-pill {
-      display: inline-flex; flex-direction: column; align-items: center;
-      padding: .35rem .85rem;
-      background: rgba(255,255,255,.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.22); border-radius: var(--r-pill);
-      text-decoration: none; transition: background .2s, border-color .2s;
-    }
-    .hero-pill:hover { background: rgba(255,255,255,.26); border-color: rgba(255,255,255,.45); }
-    .hero-pill-label { font-family: var(--f-ui); font-size: .8rem; font-weight: 500; color: #fff; }
-    .hero-pill-sub   { font-family: var(--f-mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+    .hero-title .c-accent { color: var(--accent); }
+    .hero-title .c-warm   { color: var(--accent-warm); font-style: italic; }
 
-    /* ════════════════════════════════════════
-       SECTION CHAPTER HEADERS (photo + overlay)
-    ════════════════════════════════════════ */
-    .day-section { margin-top: 2px; }
+    /* big km number */
+    .total-display {
+      text-align: center;
+      margin-bottom: 1.875rem;
+    }
+    .total-km-wrap {
+      display: inline-flex;
+      align-items: baseline;
+      gap: .25rem;
+    }
+    .total-km {
+      font-family: var(--f-mono);
+      font-size: clamp(2.75rem, 12vw, 5rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -.025em;
+    }
+    .total-unit {
+      font-family: var(--f-mono);
+      font-size: 1.25rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .total-label {
+      display: block;
+      font-size: .775rem;
+      color: var(--muted);
+      margin-top: .3rem;
+      font-family: var(--f-mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
 
-    .chapter-header {
+    /* progress card */
+    .progress-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--r-lg);
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: .875rem;
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .875rem;
+    }
+    .progress-pct {
+      font-family: var(--f-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -.01em;
+    }
+    .progress-goal {
+      font-family: var(--f-mono);
+      font-size: .68rem;
+      color: var(--muted);
+    }
+    .progress-track {
       position: relative;
-      height: 220px; background-color: #1A2B3E; /* fallback */
-      background-size: cover; background-position: center;
-      overflow: hidden; display: flex; align-items: flex-end;
+      height: 10px;
+      background: var(--card-border);
+      border-radius: var(--r-pill);
+      margin-bottom: .875rem;
+      overflow: visible;
     }
-    @media (min-width: 640px) { .chapter-header { height: 290px; } }
-
-    /* Add per-section classes with background-image + background-color fallback:
-       .ch-section-one { background-color: #1A2030; background-image: url('UNSPLASH_URL'); }
-    */
-
-    .chapter-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(10,20,35,.88) 0%, rgba(10,20,35,.15) 100%);
+    .progress-fill {
+      position: absolute;
+      left: 0; top: 0; height: 100%;
+      border-radius: var(--r-pill);
+      background: linear-gradient(90deg, var(--accent-warm), var(--accent));
+      box-shadow: 0 0 14px rgba(0, 212, 255, .4);
+      transition: width 1.3s cubic-bezier(.4, 0, .2, 1);
+      min-width: 3px;
     }
-    .chapter-text {
-      position: relative; z-index: 1;
-      padding: 1.4rem 1.5rem; width: 100%; max-width: 900px; margin: 0 auto;
+    .rocket-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -60%);
+      font-size: 1.3rem;
+      z-index: 3;
+      animation: rocket-glow 2.5s ease-in-out infinite;
+      transition: left 1.3s cubic-bezier(.4, 0, .2, 1);
+      pointer-events: none;
+      line-height: 1;
     }
-    @media (min-width: 640px) { .chapter-text { padding: 2rem 2.5rem; } }
+    @keyframes rocket-glow {
+      0%, 100% { filter: drop-shadow(0 0 3px var(--accent)); }
+      50%       { filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 22px rgba(0,212,255,.4)); }
+    }
+    .milestone-dot {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      border: 2px solid var(--bg);
+      z-index: 2;
+    }
+    .milestone-dot.reached {
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+    .progress-footer {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--f-mono);
+      font-size: .67rem;
+      color: var(--muted);
+    }
+    .next-milestone { color: var(--accent-warm); font-weight: 600; }
 
+    /* hero stats */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .625rem;
+      margin-bottom: 4.5rem;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--r-md);
+      padding: .875rem .75rem;
+      text-align: center;
+    }
+    .stat-value {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.01em;
+    }
+    .stat-label {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: .6rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-top: .2rem;
+    }
+
+    /* ── SECTION HEADER ─────────────────────────────────────── */
+    .section-header { margin-bottom: 1.25rem; }
     .section-tag {
-      display: inline-block;
-      font-family: var(--f-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--hi); background: rgba(232,118,58,.14); border: 1px solid rgba(232,118,58,.3);
-      border-radius: var(--r-pill); padding: .22rem .65rem; margin-bottom: .45rem;
+      display: block;
+      font-family: var(--f-mono);
+      font-size: .63rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: .3rem;
     }
-    .chapter-text h2 {
+    .section-title {
       font-family: var(--f-display);
-      font-size: clamp(1.9rem, 6vw, 3rem); font-weight: 700;
-      line-height: 1.0; letter-spacing: -.02em; color: #fff;
-    }
-    .chapter-note { font-family: var(--f-body); font-style: italic; font-size: .88rem; color: rgba(255,255,255,.65); margin-top: .3rem; }
-
-    /* ════════════════════════════════════════
-       SECTION BODY
-    ════════════════════════════════════════ */
-    .section-body {
-      max-width: 900px; margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem;
-    }
-    @media (min-width: 640px) { .section-body { padding: 2.5rem 2.5rem 4rem; } }
-
-    .context-note {
-      font-family: var(--f-body); font-style: italic; font-size: .95rem;
-      color: var(--ink-soft); background: var(--accent-bg);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 var(--r-sm) var(--r-sm) 0;
-      padding: .75rem 1rem; margin-bottom: 1.5rem;
+      font-size: clamp(1.25rem, 4vw, 1.625rem);
+      font-weight: 700;
+      letter-spacing: -.01em;
     }
 
-    /* ════════════════════════════════════════
-       CARDS
-    ════════════════════════════════════════ */
-    .cards { display: flex; flex-direction: column; gap: .75rem; }
-
-    .card {
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--r-md); overflow: hidden; display: flex;
-      box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s;
+    /* ── LEADERBOARD ────────────────────────────────────────── */
+    .runner-list { display: flex; flex-direction: column; gap: .5rem; }
+    .runner-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--r-md);
+      padding: .875rem 1rem;
+      display: grid;
+      grid-template-columns: 2.75rem 1fr auto auto;
+      align-items: center;
+      gap: .625rem;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+      cursor: default;
     }
-    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-    /* Colour-coded left rail — add classes to match your categories */
-    .rail               { width: 4px; flex-shrink: 0; }
-    .rail-accent        { background: var(--accent); }
-    .rail-hi            { background: var(--hi); }
-    .rail-green         { background: #27AE60; }
-    .rail-blue          { background: #2980B9; }
-    .rail-purple        { background: #7C5CE7; }
-    .rail-red           { background: #E74C3C; }
-
-    .card-inner         { display: flex; gap: .8rem; padding: 1.1rem 1.1rem 1.1rem .95rem; flex: 1; min-width: 0; }
-    .card-emoji         { font-size: 1.55rem; line-height: 1.1; flex-shrink: 0; }
-    .card-body          { flex: 1; min-width: 0; }
-
-    .card-row1          { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; margin-bottom: .25rem; }
-    .card-title         { font-family: var(--f-ui); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
-
-    .badges             { display: flex; gap: .28rem; flex-wrap: wrap; justify-content: flex-end; flex-shrink: 0; }
-    .badge              { font-family: var(--f-mono); font-size: .58rem; letter-spacing: .04em; text-transform: uppercase; padding: .18rem .48rem; border-radius: var(--r-pill); white-space: nowrap; }
-    /* Add badge variants to match your content — copy this pattern: */
-    .badge-accent       { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(42,124,111,.3); }
-    .badge-hi           { background: var(--hi-bg);     color: #B85820;       border: 1px solid rgba(232,118,58,.3); }
-    .badge-free         { background: #EDF7F0;           color: #1A6B3C;       border: 1px solid #88D4A8; }
-    .badge-warn         { background: #FEF9E7;           color: #8A5C1A;       border: 1px solid #F5DFA0; }
-    .badge-book         { background: #EDF2FC;           color: #2C5FAA;       border: 1px solid #A8BEF0; }
-
-    .card-desc          { font-family: var(--f-body); font-size: .9rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: .7rem; }
-    .card-meta          { display: flex; flex-wrap: wrap; gap: .3rem .8rem; font-family: var(--f-mono); font-size: .67rem; color: var(--muted); margin-bottom: .75rem; }
-    .card-warning       { display: inline-block; font-size: .8rem; font-weight: 500; color: #9A4820; background: #FEF4EE; border: 1px solid #F5C9A0; border-radius: var(--r-sm); padding: .28rem .6rem; margin-bottom: .65rem; }
-    .card-actions       { display: flex; gap: .4rem; flex-wrap: wrap; }
-
-    /* Action buttons */
-    .btn                { display: inline-flex; align-items: center; gap: .3rem; font-family: var(--f-ui); font-size: .78rem; font-weight: 500; text-decoration: none; padding: .35rem .78rem; border-radius: var(--r-pill); min-height: 34px; transition: background .15s, color .15s; }
-    .btn-primary        { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(42,124,111,.2); }
-    .btn-primary:hover  { background: var(--accent); color: #fff; }
-    .btn-secondary      { background: var(--hi-bg); color: #B85820; border: 1px solid rgba(232,118,58,.2); }
-    .btn-secondary:hover{ background: var(--hi); color: #fff; }
-
-    /* ════════════════════════════════════════
-       PLACEHOLDER (for TBC sections)
-    ════════════════════════════════════════ */
-    .placeholder {
-      background: linear-gradient(135deg, #f2ede5, var(--accent-bg));
-      border: 2px dashed var(--card-border); border-radius: var(--r-md);
-      padding: 3rem 1.5rem; text-align: center;
+    .runner-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,212,255,.25);
+      box-shadow: 0 6px 24px rgba(0,212,255,.07);
     }
-    .placeholder-icon { font-size: 3rem; margin-bottom: .75rem; }
-    .placeholder-text { font-family: var(--f-body); font-style: italic; font-size: 1.05rem; color: var(--muted); }
+    .runner-card.gold   { border-color: rgba(255,215,0,.35); }
+    .runner-card.silver { border-color: rgba(192,192,192,.25); }
+    .runner-card.bronze { border-color: rgba(205,127,50,.25); }
 
-    /* ════════════════════════════════════════
-       FOOTER
-    ════════════════════════════════════════ */
+    .runner-rank {
+      font-family: var(--f-mono);
+      font-size: .875rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1;
+    }
+    .runner-rank.r1 { color: #ffd700; font-size: 1.375rem; }
+    .runner-rank.r2 { color: #c0c0c0; font-size: 1.375rem; }
+    .runner-rank.r3 { color: #cd7f32; font-size: 1.375rem; }
+
+    .runner-info { min-width: 0; }
+    .runner-name {
+      font-weight: 600;
+      font-size: .9375rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .runner-handle {
+      font-family: var(--f-mono);
+      font-size: .67rem;
+      color: var(--muted);
+    }
+
+    .level-badge {
+      font-family: var(--f-mono);
+      font-size: .6rem;
+      padding: .2rem .45rem;
+      border-radius: var(--r-pill);
+      border: 1px solid currentColor;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+      animation: badge-in .35s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes badge-in {
+      from { transform: scale(.75); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .runner-distance { text-align: right; flex-shrink: 0; }
+    .runner-km {
+      font-family: var(--f-mono);
+      font-size: .9375rem;
+      font-weight: 700;
+      display: block;
+      white-space: nowrap;
+    }
+    .runner-km-unit { font-size: .65rem; color: var(--muted); font-weight: 400; }
+    .runner-mini-bar {
+      height: 3px;
+      background: var(--card-border);
+      border-radius: var(--r-pill);
+      margin-top: .35rem;
+      width: 52px;
+      overflow: hidden;
+    }
+    .runner-mini-fill {
+      height: 100%;
+      border-radius: var(--r-pill);
+      background: linear-gradient(90deg, var(--accent-warm), var(--accent));
+      width: 0;
+      transition: width 1s ease .4s;
+    }
+
+    /* ── JOURNEY MILESTONES ──────────────────────────────────── */
+    .milestone-track {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      position: relative;
+      padding-left: 2.125rem;
+    }
+    .milestone-track::before {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      top: 1.25rem;
+      bottom: 1.25rem;
+      width: 2px;
+      background: var(--card-border);
+    }
+    .milestone-item {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--r-md);
+      padding: .875rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .875rem;
+      transition: border-color .3s;
+    }
+    .milestone-item.reached { border-color: rgba(0, 212, 255, .3); }
+    .milestone-item.current {
+      border-color: var(--accent-warm);
+      box-shadow: 0 0 22px rgba(255, 107, 53, .1);
+    }
+    .milestone-item::before {
+      content: '';
+      position: absolute;
+      left: -1.625rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--card-border);
+      border: 2px solid var(--bg);
+      z-index: 1;
+    }
+    .milestone-item.reached::before { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+    .milestone-item.current::before {
+      background: var(--accent-warm);
+      animation: node-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes node-pulse {
+      0%, 100% { box-shadow: 0 0 6px var(--accent-warm); }
+      50%       { box-shadow: 0 0 14px var(--accent-warm), 0 0 26px rgba(255,107,53,.3); }
+    }
+
+    .milestone-emoji { font-size: 1.75rem; line-height: 1; flex-shrink: 0; }
+    .milestone-content { flex: 1; min-width: 0; }
+    .milestone-name  { font-family: var(--f-display); font-weight: 700; font-size: .9375rem; }
+    .milestone-desc  { font-family: var(--f-mono); font-size: .68rem; color: var(--muted); }
+    .milestone-status {
+      font-family: var(--f-mono);
+      font-size: .63rem;
+      font-weight: 600;
+      padding: .2rem .5rem;
+      border-radius: var(--r-pill);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .ms-reached  { color: var(--accent); }
+    .ms-current  { color: var(--accent-warm); }
+    .ms-upcoming { color: var(--muted); }
+
+    /* ── FEED ───────────────────────────────────────────────── */
+    .feed-list { display: flex; flex-direction: column; gap: .5rem; }
+    .feed-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--r-md);
+      padding: .75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .feed-icon {
+      width: 2.25rem; height: 2.25rem;
+      border-radius: var(--r-sm);
+      background: var(--accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.125rem;
+      flex-shrink: 0;
+    }
+    .feed-content   { flex: 1; min-width: 0; }
+    .feed-runner    { font-weight: 600; font-size: .875rem; }
+    .feed-run-name  { font-size: .775rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .feed-right     { text-align: right; flex-shrink: 0; }
+    .feed-dist {
+      font-family: var(--f-mono);
+      font-size: .9375rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    .feed-time {
+      font-family: var(--f-mono);
+      font-size: .63rem;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
     footer {
-      background: var(--ink); color: rgba(255,255,255,.55);
-      text-align: center; padding: 3.5rem 1.5rem;
+      border-top: 1px solid var(--card-border);
+      padding: 2rem 0;
+      padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+      text-align: center;
     }
-    .footer-wordmark    { font-family: var(--f-display); font-size: 1.6rem; font-weight: 700; color: #fff; display: block; margin-bottom: .4rem; }
-    footer p            { font-family: var(--f-body); font-style: italic; font-size: .9rem; }
-    .back-to-top        { display: inline-block; margin-top: 1.5rem; font-family: var(--f-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; border: 1px solid rgba(255,255,255,.2); border-radius: var(--r-pill); padding: .38rem .85rem; transition: color .15s, border-color .15s; }
-    .back-to-top:hover  { color: rgba(255,255,255,.9); border-color: rgba(255,255,255,.5); }
+    .footer-brand {
+      font-family: var(--f-display);
+      font-size: 1.125rem;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      margin-bottom: .4rem;
+    }
+    .footer-meta {
+      font-family: var(--f-mono);
+      font-size: .67rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
-    /* ════════════════════════════════════════
-       SCROLL ANIMATIONS
-       Add class="fade-up" to any element.
-       JS below handles triggering.
-    ════════════════════════════════════════ */
-    .fade-up    { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
+    /* ── EMPTY STATE ────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .empty-state .e-icon { font-size: 2.5rem; display: block; margin-bottom: .75rem; }
+
+    /* ── SCROLL ANIMATIONS ──────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
     .fade-up.in { opacity: 1; transform: none; }
+
+    /* ── DESKTOP ─────────────────────────────────────────────── */
+    @media (min-width: 640px) {
+      .top-nav    { display: block; }
+      .bottom-nav { display: none; }
+      footer      { padding-bottom: 2.5rem; }
+
+      #hero { min-height: 88vh; padding-top: 3rem; }
+
+      .hero-stats { gap: 1rem; margin-bottom: 0; }
+      .stat-card  { padding: 1.25rem 1rem; }
+      .stat-value { font-size: 1.75rem; }
+
+      .runner-card { padding: 1rem 1.25rem; gap: .875rem; }
+      .runner-name { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ── DESKTOP NAV ── -->
-<nav class="top-nav" aria-label="Site navigation">
-  <a href="#top" class="top-nav-brand">SITE TITLE</a>
-  <ul class="top-nav-links">
-    <!-- Duplicate for each section -->
-    <li><a href="#section-one">Section One</a></li>
-    <li><a href="#section-two">Section Two</a></li>
-  </ul>
-</nav>
-
-<!-- ── MOBILE BOTTOM NAV ── -->
-<nav class="bottom-nav" aria-label="Jump to section">
-  <!-- One <a> per section — keep to 5 max -->
-  <a href="#section-one">
-    <span class="bottom-nav-icon">🗺️</span>
-    <span class="bottom-nav-label">One</span>
-  </a>
-  <a href="#section-two">
-    <span class="bottom-nav-icon">📍</span>
-    <span class="bottom-nav-label">Two</span>
-  </a>
-</nav>
-
-<!-- ── HERO ── -->
-<section class="hero" id="top" aria-label="Page introduction">
-  <div class="hero-bg" id="heroBg" role="img" aria-label="Hero image description"></div>
-  <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">EYEBROW TEXT</p>
-    <h1 class="hero-title">TITLE</h1>
-    <p class="hero-sub">One-line subtitle here.</p>
-    <div class="hero-pills">
-      <a href="#section-one" class="hero-pill">
-        <span class="hero-pill-label">🗺️ Section One</span>
-        <span class="hero-pill-sub">sublabel</span>
-      </a>
-      <a href="#section-two" class="hero-pill">
-        <span class="hero-pill-label">📍 Section Two</span>
-        <span class="hero-pill-sub">sublabel</span>
-      </a>
-    </div>
+  <!-- LOADING -->
+  <div id="loading">
+    <span class="loading-rocket">🚀</span>
+    <span class="loading-text">Loading mission data…</span>
   </div>
-</section>
 
-<main>
+  <!-- APP -->
+  <div id="app" style="display:none">
 
-  <!-- ── SECTION ONE ── -->
-  <section class="day-section" id="section-one" aria-labelledby="s1-h">
-    <!--
-      Chapter header photo:
-      Add a class like .ch-section-one to .chapter-header, then define in CSS:
-      .ch-section-one {
-        background-color: #1A2030;
-        background-image: url('https://images.unsplash.com/photo-PHOTO_ID?auto=format&fit=crop&w=1400&q=80');
-      }
-    -->
-    <div class="chapter-header" role="img" aria-label="Section image description">
-      <div class="chapter-overlay" aria-hidden="true"></div>
-      <div class="chapter-text">
-        <span class="section-tag">TAG · LABEL</span>
-        <h2 id="s1-h">Section One Title</h2>
-        <p class="chapter-note">Brief section subtitle or context</p>
+    <!-- TOP NAV (desktop) -->
+    <nav class="top-nav">
+      <div class="container">
+        <a href="#hero" class="nav-brand">🚀 Moon &amp; Back</a>
+        <ul class="nav-links">
+          <li><a href="#hero"        data-nav="hero"        class="active">Dashboard</a></li>
+          <li><a href="#leaderboard" data-nav="leaderboard"            >Leaderboard</a></li>
+          <li><a href="#milestones"  data-nav="milestones"             >Journey</a></li>
+          <li><a href="#feed"        data-nav="feed"                   >Activity</a></li>
+        </ul>
       </div>
-    </div>
+    </nav>
 
-    <div class="section-body">
-      <p class="context-note fade-up">Optional introductory note for this section.</p>
+    <!-- ── HERO ──────────────────────────────────────────────── -->
+    <section id="hero">
+      <div class="container">
+        <p class="hero-eyebrow">Mission Status — Live</p>
+        <h1 class="hero-title">
+          Run to the<br>
+          <span class="c-accent">Moon</span> <span class="c-warm">&amp; Back</span>
+        </h1>
 
-      <div class="cards">
+        <div class="total-display">
+          <div class="total-km-wrap">
+            <span class="total-km" id="totalKm">0</span>
+            <span class="total-unit">km</span>
+          </div>
+          <span class="total-label">logged by the crew</span>
+        </div>
 
-        <!--
-          CARD PATTERN — copy and repeat
-          Rail colours: rail-accent / rail-hi / rail-green / rail-blue / rail-purple / rail-red
-          Badge types:  badge-accent / badge-hi / badge-free / badge-warn / badge-book
-        -->
-        <article class="card fade-up">
-          <div class="rail rail-accent"></div>
-          <div class="card-inner">
-            <span class="card-emoji" aria-hidden="true">🎯</span>
-            <div class="card-body">
-              <div class="card-row1">
-                <h3 class="card-title">Card Title</h3>
-                <div class="badges">
-                  <span class="badge badge-free">Free</span>
-                </div>
-              </div>
-              <p class="card-desc">Card description — 1–3 sentences. Keep it readable on mobile.</p>
-              <div class="card-meta">
-                <span>🕐 Opening hours or detail</span>
-                <span>📌 Extra metadata</span>
-              </div>
-              <div class="card-actions">
-                <a href="LINK" target="_blank" rel="noopener" class="btn btn-primary">📍 Map</a>
-                <a href="LINK" target="_blank" rel="noopener" class="btn btn-secondary">🔗 Website</a>
-              </div>
+        <div class="progress-wrap fade-up">
+          <div class="progress-header">
+            <span class="progress-pct" id="progressPct">0.0000%</span>
+            <span class="progress-goal">Goal: 768,800 km</span>
+          </div>
+          <div class="progress-track" id="progressTrack">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            <div class="rocket-marker" id="rocketMarker" style="left:0%">🚀</div>
+          </div>
+          <div class="progress-footer">
+            <span id="nextMilestone" class="next-milestone"></span>
+            <span id="kmToGo"></span>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-card fade-up">
+            <span class="stat-value" id="statRunners">—</span>
+            <span class="stat-label">Active</span>
+          </div>
+          <div class="stat-card fade-up">
+            <span class="stat-value" id="statRuns">—</span>
+            <span class="stat-label">Activities</span>
+          </div>
+          <div class="stat-card fade-up">
+            <span class="stat-value" id="statAvg">—</span>
+            <span class="stat-label">Avg km</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LEADERBOARD ────────────────────────────────────────── -->
+    <section id="leaderboard">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Who's crushing it</span>
+          <h2 class="section-title">Leaderboard</h2>
+        </div>
+        <div class="runner-list" id="runnerList"></div>
+      </div>
+    </section>
+
+    <!-- ── JOURNEY ───────────────────────────────────────────── -->
+    <section id="milestones">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Collective progress</span>
+          <h2 class="section-title">The Journey</h2>
+        </div>
+        <div class="milestone-track" id="milestoneList"></div>
+      </div>
+    </section>
+
+    <!-- ── FEED ──────────────────────────────────────────────── -->
+    <section id="feed">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Latest moves</span>
+          <h2 class="section-title">Activity Feed</h2>
+        </div>
+        <div class="feed-list" id="feedList"></div>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ────────────────────────────────────────────── -->
+    <footer>
+      <div class="container">
+        <div class="footer-brand">🚀 Run to the Moon &amp; Back</div>
+        <div class="footer-meta">Last updated: <span id="lastUpdated">—</span></div>
+        <div class="footer-meta">Data via Strava · Powered by friendship and spite</div>
+      </div>
+    </footer>
+
+    <!-- BOTTOM NAV (mobile) -->
+    <nav class="bottom-nav">
+      <a href="#hero"        data-nav="hero"        class="active">
+        <span class="nav-icon">🚀</span><span>Dashboard</span>
+      </a>
+      <a href="#leaderboard" data-nav="leaderboard">
+        <span class="nav-icon">🏆</span><span>Ranks</span>
+      </a>
+      <a href="#milestones"  data-nav="milestones">
+        <span class="nav-icon">🌕</span><span>Journey</span>
+      </a>
+      <a href="#feed"        data-nav="feed">
+        <span class="nav-icon">📋</span><span>Feed</span>
+      </a>
+    </nav>
+
+  </div><!-- /#app -->
+
+  <script>
+    /* ── CONSTANTS ─────────────────────────────────────────── */
+    const GOAL_KM = 768800;
+
+    const MILESTONES = [
+      { km: 0,      emoji: '🚀', label: 'Launch Pad',         desc: 'The journey begins' },
+      { km: 400,    emoji: '🛸', label: 'ISS Altitude',        desc: 'Low Earth Orbit' },
+      { km: 35786,  emoji: '🌐', label: 'Geostationary Belt',  desc: 'Comms satellite zone' },
+      { km: 100000, emoji: '🌑', label: 'Lunar Transfer',      desc: 'Escape trajectory' },
+      { km: 384400, emoji: '🌕', label: 'The Moon!',           desc: 'Halfway there 🎉' },
+      { km: 500000, emoji: '🔄', label: 'Return Journey',      desc: 'Heading home' },
+      { km: 768800, emoji: '🏠', label: 'Back on Earth',       desc: 'Mission complete!' },
+    ];
+
+    const LEVELS = [
+      { min: 1000, title: 'Moon Runner',   emoji: '🏆', color: '#ffd700' },
+      { min: 400,  title: 'Lunar Pioneer', emoji: '🌕', color: '#00d4ff' },
+      { min: 150,  title: 'Space Walker',  emoji: '🌌', color: '#a855f7' },
+      { min: 50,   title: 'Astronaut',     emoji: '🚀', color: '#ff6b35' },
+      { min: 10,   title: 'Cosmonaut',     emoji: '🧑‍🚀', color: '#22c55e' },
+      { min: 0,    title: 'Cadet',         emoji: '🌱', color: '#5a6a8a' },
+    ];
+
+    /* ── HELPERS ───────────────────────────────────────────── */
+    function getLevel(km) {
+      return LEVELS.find(l => km >= l.min) ?? LEVELS[LEVELS.length - 1];
+    }
+
+    function fmtKm(km) {
+      return km.toLocaleString('en-AU', { maximumFractionDigits: 1 });
+    }
+
+    function activityEmoji(type) {
+      return ({ Run:'🏃', Walk:'🚶', Cycle:'🚴', Ride:'🚴', Hike:'🥾', Swim:'🏊' })[type] ?? '🏃';
+    }
+
+    function relTime(dateStr) {
+      const ms   = Date.now() - new Date(dateStr).getTime();
+      const hrs  = ms / 3_600_000;
+      const days = ms / 86_400_000;
+      if (hrs  < 1)  return 'just now';
+      if (hrs  < 24) return `${Math.floor(hrs)}h ago`;
+      if (days < 2)  return 'yesterday';
+      if (days < 7)  return `${Math.floor(days)}d ago`;
+      return new Date(dateStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+    }
+
+    function animateCounter(el, target, duration = 900, decimals = 0) {
+      const t0 = performance.now();
+      const tick = now => {
+        const p    = Math.min((now - t0) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = (target * ease).toLocaleString('en-AU', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        });
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    /* ── STARFIELD ─────────────────────────────────────────── */
+    function drawStars() {
+      const c = document.createElement('canvas');
+      c.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;';
+      c.width  = window.innerWidth;
+      c.height = window.innerHeight;
+      document.body.prepend(c);
+      const ctx = c.getContext('2d');
+      for (let i = 0; i < 220; i++) {
+        ctx.beginPath();
+        ctx.arc(Math.random() * c.width, Math.random() * c.height, Math.random() * 1.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${0.07 + Math.random() * 0.35})`;
+        ctx.fill();
+      }
+    }
+
+    /* ── RENDER HERO ───────────────────────────────────────── */
+    function renderHero(data, totalKm) {
+      const pct = (totalKm / GOAL_KM) * 100;
+
+      setTimeout(() => {
+        animateCounter(document.getElementById('totalKm'), totalKm, 1100);
+
+        const pctEl = document.getElementById('progressPct');
+        const t0    = performance.now();
+        const pctTick = now => {
+          const p = Math.min((now - t0) / 1100, 1);
+          const e = 1 - Math.pow(1 - p, 3);
+          pctEl.textContent = (pct * e).toFixed(4) + '%';
+          if (p < 1) requestAnimationFrame(pctTick);
+        };
+        requestAnimationFrame(pctTick);
+
+        const active    = data.runners.filter(r => r.total_km > 0).length;
+        const totalRuns = data.runners.reduce((s, r) => s + r.runs.length, 0);
+        const avg       = totalKm / data.runners.length;
+        animateCounter(document.getElementById('statRunners'), active,    800);
+        animateCounter(document.getElementById('statRuns'),    totalRuns, 800);
+        animateCounter(document.getElementById('statAvg'),     avg,       800, 1);
+
+        const visPct = Math.max(pct, 0.4);
+        document.getElementById('progressFill').style.width = visPct + '%';
+        document.getElementById('rocketMarker').style.left  = visPct + '%';
+      }, 120);
+
+      const next = MILESTONES.find(m => m.km > totalKm);
+      if (next) {
+        document.getElementById('nextMilestone').textContent = `${next.emoji} Next: ${next.label}`;
+        document.getElementById('kmToGo').textContent = `${fmtKm(next.km - totalKm)} km away`;
+      } else {
+        document.getElementById('nextMilestone').textContent = '🏆 Goal reached!';
+      }
+
+      const track = document.getElementById('progressTrack');
+      MILESTONES.forEach(m => {
+        if (m.km === 0) return;
+        const dot      = document.createElement('div');
+        dot.className  = 'milestone-dot' + (m.km <= totalKm ? ' reached' : '');
+        dot.style.left = (m.km / GOAL_KM * 100) + '%';
+        dot.title      = `${m.emoji} ${m.label} — ${fmtKm(m.km)} km`;
+        track.appendChild(dot);
+      });
+    }
+
+    /* ── RENDER LEADERBOARD ────────────────────────────────── */
+    function renderLeaderboard(runners) {
+      const sorted = [...runners].sort((a, b) => b.total_km - a.total_km);
+      const maxKm  = sorted[0]?.total_km || 1;
+      const list   = document.getElementById('runnerList');
+
+      sorted.forEach((runner, i) => {
+        const rank      = i + 1;
+        const level     = getLevel(runner.total_km);
+        const barPct    = (runner.total_km / maxKm) * 100;
+        const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+        const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
+        const cardClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+
+        const card = document.createElement('div');
+        card.className = `runner-card fade-up ${cardClass}`.trim();
+        card.innerHTML = `
+          <div class="runner-rank ${rankClass}">${rankEmoji}</div>
+          <div class="runner-info">
+            <div class="runner-name">${runner.name}</div>
+            <div class="runner-handle">@${runner.strava_handle}</div>
+          </div>
+          <div class="level-badge" style="color:${level.color};animation-delay:${i * .04 + .15}s">
+            ${level.emoji} ${level.title}
+          </div>
+          <div class="runner-distance">
+            <span class="runner-km">${runner.total_km.toLocaleString('en-AU',{maximumFractionDigits:1})}<span class="runner-km-unit"> km</span></span>
+            <div class="runner-mini-bar">
+              <div class="runner-mini-fill" data-w="${barPct}"></div>
             </div>
           </div>
-        </article>
+        `;
+        list.appendChild(card);
+        setTimeout(() => {
+          card.querySelector('.runner-mini-fill').style.width = barPct + '%';
+        }, 350 + i * 35);
+      });
+    }
 
-        <!-- Add more cards here -->
+    /* ── RENDER MILESTONES ─────────────────────────────────── */
+    function renderMilestones(totalKm) {
+      const list = document.getElementById('milestoneList');
+      let foundNext = false;
 
-      </div>
-    </div>
-  </section>
+      MILESTONES.forEach(m => {
+        const isReached = totalKm >= m.km;
+        const isNext    = !foundNext && !isReached && m.km > 0;
+        if (isNext) foundNext = true;
 
-  <!-- ── SECTION TWO ── -->
-  <section class="day-section" id="section-two" aria-labelledby="s2-h">
-    <div class="chapter-header" role="img" aria-label="Section image description">
-      <div class="chapter-overlay" aria-hidden="true"></div>
-      <div class="chapter-text">
-        <span class="section-tag">TAG · LABEL</span>
-        <h2 id="s2-h">Section Two Title</h2>
-      </div>
-    </div>
-    <div class="section-body">
-      <!-- Placeholder for TBC sections -->
-      <div class="placeholder fade-up">
-        <div class="placeholder-icon">🌟</div>
-        <p class="placeholder-text">Content coming soon.</p>
-      </div>
-    </div>
-  </section>
+        const item = document.createElement('div');
+        item.className = `milestone-item fade-up${isReached ? ' reached' : isNext ? ' current' : ''}`;
 
-</main>
+        let badge;
+        if (m.km === 0 || isReached) {
+          badge = `<span class="milestone-status ms-reached">✓ Reached</span>`;
+        } else if (isNext) {
+          badge = `<span class="milestone-status ms-current">🎯 ${fmtKm(m.km - totalKm)} km</span>`;
+        } else {
+          badge = `<span class="milestone-status ms-upcoming">${fmtKm(m.km)} km</span>`;
+        }
 
-<footer>
-  <span class="footer-wordmark">SITE TITLE</span>
-  <p>Tagline or credit line here.</p>
-  <a href="#top" class="back-to-top">↑ Back to top</a>
-</footer>
+        item.innerHTML = `
+          <div class="milestone-emoji">${m.emoji}</div>
+          <div class="milestone-content">
+            <div class="milestone-name">${m.label}</div>
+            <div class="milestone-desc">${m.desc}</div>
+          </div>
+          ${badge}
+        `;
+        list.appendChild(item);
+      });
+    }
 
-<script>
-  // ── Scroll-triggered staggered fade-up ──
-  const fadeObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const siblings = [...entry.target.parentElement.children]
-        .filter(el => el.classList.contains('fade-up'));
-      const delay = siblings.indexOf(entry.target) * 75;
-      setTimeout(() => entry.target.classList.add('in'), delay);
-      fadeObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+    /* ── RENDER FEED ───────────────────────────────────────── */
+    function renderFeed(data) {
+      const allRuns = data.runners
+        .flatMap(r => r.runs.map(run => ({ ...run, runner_name: r.name })))
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  // ── Active bottom nav link by visible section ──
-  const sections = document.querySelectorAll('.day-section');
-  const navLinks = document.querySelectorAll('.bottom-nav a');
-  const navObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      navLinks.forEach(l => l.classList.remove('active'));
-      const match = document.querySelector(`.bottom-nav a[href="#${e.target.id}"]`);
-      if (match) match.classList.add('active');
-    });
-  }, { threshold: 0.45 });
-  sections.forEach(s => navObserver.observe(s));
+      const list = document.getElementById('feedList');
+      if (!allRuns.length) {
+        list.innerHTML = `<div class="empty-state"><span class="e-icon">👟</span><p>No activities logged yet. Get moving!</p></div>`;
+        return;
+      }
+      allRuns.slice(0, 25).forEach(run => {
+        const item = document.createElement('div');
+        item.className = 'feed-item fade-up';
+        item.innerHTML = `
+          <div class="feed-icon">${activityEmoji(run.activity)}</div>
+          <div class="feed-content">
+            <div class="feed-runner">${run.runner_name}</div>
+            <div class="feed-run-name">${run.name ?? run.activity}</div>
+          </div>
+          <div class="feed-right">
+            <span class="feed-dist">${run.distance_km.toFixed(1)} km</span>
+            <span class="feed-time">${relTime(run.date)}</span>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
 
-  // ── Hero image: load then trigger subtle unzoom ──
-  // Replace the URL below with your actual hero image
-  const HERO_IMAGE_URL = 'https://images.unsplash.com/photo-1527004013197-933b162c4f24?auto=format&fit=crop&w=1800&q=80';
-  const heroBg = document.getElementById('heroBg');
-  const img = new Image();
-  img.onload = () => {
-    heroBg.style.backgroundImage = `url('${img.src}')`;
-    requestAnimationFrame(() => heroBg.classList.add('loaded'));
-  };
-  img.src = HERO_IMAGE_URL;
-</script>
+    /* ── FADE ANIMATIONS ───────────────────────────────────── */
+    function setupFade() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const siblings = [...e.target.parentElement.children].filter(el => el.classList.contains('fade-up'));
+          setTimeout(() => e.target.classList.add('in'), siblings.indexOf(e.target) * 55);
+          obs.unobserve(e.target);
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -24px 0px' });
+      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    }
+
+    /* ── NAV ACTIVE STATE ──────────────────────────────────── */
+    function setupNav() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          document.querySelectorAll('[data-nav]').forEach(a => a.classList.remove('active'));
+          document.querySelectorAll(`[data-nav="${e.target.id}"]`).forEach(a => a.classList.add('active'));
+        });
+      }, { threshold: 0.4 });
+      document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+    }
+
+    /* ── INIT ──────────────────────────────────────────────── */
+    async function init() {
+      drawStars();
+      try {
+        const res  = await fetch('./state.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('app').style.display     = 'block';
+
+        const totalKm = data.runners.reduce((s, r) => s + (r.total_km ?? 0), 0);
+
+        renderHero(data, totalKm);
+        renderLeaderboard(data.runners);
+        renderMilestones(totalKm);
+        renderFeed(data);
+        setupFade();
+        setupNav();
+
+        if (data.last_updated) {
+          document.getElementById('lastUpdated').textContent =
+            new Date(data.last_updated).toLocaleString('en-AU', {
+              day: 'numeric', month: 'short', year: 'numeric',
+              hour: '2-digit', minute: '2-digit',
+            });
+        }
+      } catch (err) {
+        document.getElementById('loading').innerHTML = `
+          <div class="empty-state">
+            <span class="e-icon">⚠️</span>
+            <p>Couldn't load run data.</p>
+            <p style="font-family:var(--f-mono);font-size:.7rem;margin-top:.5rem;color:var(--muted)">${err.message}</p>
+          </div>`;
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>

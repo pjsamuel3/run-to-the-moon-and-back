@@ -11,8 +11,127 @@ How to go from a brief to a live, iterable site — using this template.
 | **Product Manager** | Reads the brief. Defines audience, goals, content structure. Decides what *not* to build. |
 | **UI Designer** | Defines the design system (colours, type, spacing). Picks photos. Designs for the primary device (mobile). |
 | **Engineer** | Writes the HTML/CSS/JS. Sets up Git, GitHub, Pages, branch workflow, Copilot instructions. |
+| **Technical UI Tester** | Writes BDD feature files and Playwright tests. Validates the golden path and edge cases. Catches regressions before merge. |
 
-One person can wear all three hats — but they should be worn *in that order*.
+One person can wear all four hats — but they should be worn *in that order*.
+
+---
+
+## Technical UI Tester — how to use this skill
+
+### When to invoke
+After the Engineer has a working build — run the Tester before raising a PR. Also run after any change that touches navigation, data rendering, or animations.
+
+### Tooling
+- **Playwright** for browser automation (Chromium by default; add Firefox/WebKit for cross-browser)
+- **BDD feature files** (Gherkin) as the source of truth for acceptance criteria — scenarios are written before tests
+
+### Setup (add once per project)
+
+```bash
+npm init -y
+npm install -D @playwright/test
+npx playwright install chromium
+```
+
+Add to `package.json`:
+```json
+{
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
+  }
+}
+```
+
+Create `playwright.config.js`:
+```js
+import { defineConfig } from '@playwright/test';
+export default defineConfig({
+  testDir: './tests',
+  use: {
+    baseURL: 'http://localhost:8080',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+});
+```
+
+Serve the site locally during tests:
+```bash
+npx serve . -p 8080   # or python3 -m http.server 8080
+```
+
+### BDD feature file structure (`tests/features/`)
+
+Write one `.feature` file per major section. Example for this project:
+
+```gherkin
+Feature: Dashboard — progress display
+
+  Scenario: Total km counter is visible and non-zero
+    Given I open the site
+    Then I should see a km counter greater than 0
+
+  Scenario: Progress bar rocket is positioned correctly
+    Given I open the site
+    When the data has loaded
+    Then the rocket marker should be visible on the progress track
+
+  Scenario: Next milestone is shown below the progress bar
+    Given I open the site
+    Then I should see a "Next:" label with a milestone name
+```
+
+### Playwright test pattern (`tests/`)
+
+Mirror each feature scenario 1-to-1 with a `test()` block:
+
+```js
+// tests/dashboard.spec.js
+import { test, expect } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+  await page.goto('/');
+  await page.waitForSelector('#app', { state: 'visible' });
+});
+
+test('total km counter is visible and non-zero', async ({ page }) => {
+  const km = page.locator('#totalKm');
+  await expect(km).toBeVisible();
+  const value = await km.textContent();
+  expect(parseInt(value.replace(/,/g, ''), 10)).toBeGreaterThan(0);
+});
+
+test('progress bar rocket is visible', async ({ page }) => {
+  await expect(page.locator('#rocketMarker')).toBeVisible();
+});
+
+test('next milestone label is shown', async ({ page }) => {
+  const label = page.locator('#nextMilestone');
+  await expect(label).toContainText('Next:');
+});
+```
+
+### What to test on every PR
+
+- [ ] Site loads without JS errors (check `page.on('pageerror', ...)`)
+- [ ] All four nav sections are reachable via anchor links
+- [ ] Leaderboard renders at least one runner card
+- [ ] Journey milestone list renders all 7 milestones
+- [ ] Feed renders at least one activity item
+- [ ] Mobile viewport (375×812): bottom nav visible, top nav hidden
+- [ ] Desktop viewport (1280×800): top nav visible, bottom nav hidden
+- [ ] state.json fetch failure shows error state gracefully
+
+### PR checklist addition
+
+Add to `.github/PULL_REQUEST_TEMPLATE.md`:
+```
+- [ ] Playwright tests pass locally (`npm test`)
+- [ ] No new console errors on load
+- [ ] Tested on mobile viewport (375px) and desktop (1280px)
+```
 
 ---
 
