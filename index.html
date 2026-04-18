@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0D1B2A">
+  <title>PROJECT TITLE</title>
+  <meta name="description" content="PROJECT DESCRIPTION">
+  <meta property="og:title" content="PROJECT TITLE">
+  <meta property="og:description" content="PROJECT DESCRIPTION">
+  <meta property="og:image" content="HERO_IMAGE_URL">
+
+  <!--
+    FONTS — replace with your chosen Google Fonts
+    Current set: Playfair Display (display) + Source Serif 4 (body) + DM Sans (UI) + DM Mono (labels)
+    Pick at https://fonts.google.com — keep it to 3 families max
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ════════════════════════════════════════
+       RESET
+    ════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img  { display: block; max-width: 100%; }
+    a    { color: inherit; }
+
+    /* ════════════════════════════════════════
+       DESIGN TOKENS — edit these first
+       Every colour, font, shadow and radius
+       in the site should reference these vars.
+    ════════════════════════════════════════ */
+    :root {
+      /* Palette */
+      --bg:          #FAFAF8;   /* page background */
+      --ink:         #0D1B2A;   /* primary text */
+      --ink-soft:    #3D4A58;   /* secondary text */
+      --accent:      #2A7C6F;   /* primary action / accent */
+      --accent-bg:   #E8F5F3;   /* tint of accent */
+      --hi:          #E8763A;   /* highlight / tag colour */
+      --hi-bg:       #FDF0E8;   /* tint of highlight */
+      --card-bg:     #FFFFFF;
+      --card-border: #E6E0D8;
+      --muted:       #7A7269;   /* metadata, placeholders */
+      --white:       #FFFFFF;
+
+      /* Typography */
+      --f-display: 'Playfair Display', Georgia, serif;
+      --f-body:    'Source Serif 4', Georgia, serif;
+      --f-ui:      'DM Sans', system-ui, sans-serif;
+      --f-mono:    'DM Mono', monospace;
+
+      /* Elevation */
+      --shadow-sm: 0 1px 4px rgba(13,27,42,.07);
+      --shadow-md: 0 4px 18px rgba(13,27,42,.11);
+
+      /* Radii */
+      --r-sm:   6px;
+      --r-md:   14px;
+      --r-pill: 999px;
+    }
+
+    /* ════════════════════════════════════════
+       BASE
+    ════════════════════════════════════════ */
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-ui);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 68px; /* mobile nav clearance */
+    }
+    @media (min-width: 640px) { body { padding-bottom: 0; } }
+
+    /* ════════════════════════════════════════
+       NAVIGATION — desktop top / mobile bottom
+    ════════════════════════════════════════ */
+
+    /* Desktop */
+    .top-nav {
+      display: none;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,250,248,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+    }
+    @media (min-width: 640px) {
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 54px;
+        padding: 0 2rem;
+      }
+    }
+    .top-nav-brand {
+      font-family: var(--f-display);
+      font-size: .95rem; font-weight: 700;
+      color: var(--ink); text-decoration: none;
+    }
+    .top-nav-links { display: flex; list-style: none; }
+    .top-nav-links a {
+      font-family: var(--f-mono);
+      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: .55rem .85rem; border-radius: var(--r-sm);
+      transition: color .15s, background .15s;
+    }
+    .top-nav-links a:hover { color: var(--accent); background: var(--accent-bg); }
+
+    /* Mobile fixed bottom */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: var(--white);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      box-shadow: 0 -4px 24px rgba(13,27,42,.08);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    @media (min-width: 640px) { .bottom-nav { display: none; } }
+    .bottom-nav a {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: .55rem .2rem; min-height: 56px; gap: 3px;
+      text-decoration: none; color: var(--muted);
+      transition: color .15s;
+    }
+    .bottom-nav a.active, .bottom-nav a:hover { color: var(--accent); }
+    .bottom-nav-icon { font-size: 1.25rem; line-height: 1; }
+    .bottom-nav-label {
+      font-family: var(--f-mono);
+      font-size: .58rem; letter-spacing: .04em; text-transform: uppercase;
+    }
+
+    /* ════════════════════════════════════════
+       HERO
+    ════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100svh; min-height: 520px; max-height: 900px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-color: #0D2B3E; /* fallback — always keep this */
+      /* background-image set by JS for load animation */
+      background-size: cover; background-position: center 35%;
+      transition: transform 8s ease; transform: scale(1.04);
+    }
+    .hero-bg.loaded { transform: scale(1); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,20,35,.90) 0%, rgba(10,20,35,.45) 45%, rgba(10,20,35,.10) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 900px; margin: 0 auto;
+      padding: 3rem 1.5rem 2.5rem;
+    }
+    @media (min-width: 640px) { .hero-content { padding: 4rem 2.5rem 3.5rem; } }
+
+    .hero-eyebrow {
+      font-family: var(--f-mono);
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.65); margin-bottom: .75rem;
+    }
+    .hero-title {
+      font-family: var(--f-display);
+      font-size: clamp(3.5rem, 14vw, 9rem);
+      font-weight: 900; line-height: .88; letter-spacing: -.03em;
+      color: #fff; margin-bottom: .6rem;
+    }
+    .hero-sub {
+      font-family: var(--f-body); font-style: italic;
+      font-size: clamp(1rem, 2.8vw, 1.3rem);
+      color: rgba(255,255,255,.75); margin-bottom: 2.2rem;
+    }
+    .hero-pills { display: flex; gap: .45rem; flex-wrap: wrap; }
+    .hero-pill {
+      display: inline-flex; flex-direction: column; align-items: center;
+      padding: .35rem .85rem;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.22); border-radius: var(--r-pill);
+      text-decoration: none; transition: background .2s, border-color .2s;
+    }
+    .hero-pill:hover { background: rgba(255,255,255,.26); border-color: rgba(255,255,255,.45); }
+    .hero-pill-label { font-family: var(--f-ui); font-size: .8rem; font-weight: 500; color: #fff; }
+    .hero-pill-sub   { font-family: var(--f-mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+    /* ════════════════════════════════════════
+       SECTION CHAPTER HEADERS (photo + overlay)
+    ════════════════════════════════════════ */
+    .day-section { margin-top: 2px; }
+
+    .chapter-header {
+      position: relative;
+      height: 220px; background-color: #1A2B3E; /* fallback */
+      background-size: cover; background-position: center;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    @media (min-width: 640px) { .chapter-header { height: 290px; } }
+
+    /* Add per-section classes with background-image + background-color fallback:
+       .ch-section-one { background-color: #1A2030; background-image: url('UNSPLASH_URL'); }
+    */
+
+    .chapter-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,20,35,.88) 0%, rgba(10,20,35,.15) 100%);
+    }
+    .chapter-text {
+      position: relative; z-index: 1;
+      padding: 1.4rem 1.5rem; width: 100%; max-width: 900px; margin: 0 auto;
+    }
+    @media (min-width: 640px) { .chapter-text { padding: 2rem 2.5rem; } }
+
+    .section-tag {
+      display: inline-block;
+      font-family: var(--f-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--hi); background: rgba(232,118,58,.14); border: 1px solid rgba(232,118,58,.3);
+      border-radius: var(--r-pill); padding: .22rem .65rem; margin-bottom: .45rem;
+    }
+    .chapter-text h2 {
+      font-family: var(--f-display);
+      font-size: clamp(1.9rem, 6vw, 3rem); font-weight: 700;
+      line-height: 1.0; letter-spacing: -.02em; color: #fff;
+    }
+    .chapter-note { font-family: var(--f-body); font-style: italic; font-size: .88rem; color: rgba(255,255,255,.65); margin-top: .3rem; }
+
+    /* ════════════════════════════════════════
+       SECTION BODY
+    ════════════════════════════════════════ */
+    .section-body {
+      max-width: 900px; margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+    @media (min-width: 640px) { .section-body { padding: 2.5rem 2.5rem 4rem; } }
+
+    .context-note {
+      font-family: var(--f-body); font-style: italic; font-size: .95rem;
+      color: var(--ink-soft); background: var(--accent-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      padding: .75rem 1rem; margin-bottom: 1.5rem;
+    }
+
+    /* ════════════════════════════════════════
+       CARDS
+    ════════════════════════════════════════ */
+    .cards { display: flex; flex-direction: column; gap: .75rem; }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--r-md); overflow: hidden; display: flex;
+      box-shadow: var(--shadow-sm); transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* Colour-coded left rail — add classes to match your categories */
+    .rail               { width: 4px; flex-shrink: 0; }
+    .rail-accent        { background: var(--accent); }
+    .rail-hi            { background: var(--hi); }
+    .rail-green         { background: #27AE60; }
+    .rail-blue          { background: #2980B9; }
+    .rail-purple        { background: #7C5CE7; }
+    .rail-red           { background: #E74C3C; }
+
+    .card-inner         { display: flex; gap: .8rem; padding: 1.1rem 1.1rem 1.1rem .95rem; flex: 1; min-width: 0; }
+    .card-emoji         { font-size: 1.55rem; line-height: 1.1; flex-shrink: 0; }
+    .card-body          { flex: 1; min-width: 0; }
+
+    .card-row1          { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; margin-bottom: .25rem; }
+    .card-title         { font-family: var(--f-ui); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+    .badges             { display: flex; gap: .28rem; flex-wrap: wrap; justify-content: flex-end; flex-shrink: 0; }
+    .badge              { font-family: var(--f-mono); font-size: .58rem; letter-spacing: .04em; text-transform: uppercase; padding: .18rem .48rem; border-radius: var(--r-pill); white-space: nowrap; }
+    /* Add badge variants to match your content — copy this pattern: */
+    .badge-accent       { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(42,124,111,.3); }
+    .badge-hi           { background: var(--hi-bg);     color: #B85820;       border: 1px solid rgba(232,118,58,.3); }
+    .badge-free         { background: #EDF7F0;           color: #1A6B3C;       border: 1px solid #88D4A8; }
+    .badge-warn         { background: #FEF9E7;           color: #8A5C1A;       border: 1px solid #F5DFA0; }
+    .badge-book         { background: #EDF2FC;           color: #2C5FAA;       border: 1px solid #A8BEF0; }
+
+    .card-desc          { font-family: var(--f-body); font-size: .9rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: .7rem; }
+    .card-meta          { display: flex; flex-wrap: wrap; gap: .3rem .8rem; font-family: var(--f-mono); font-size: .67rem; color: var(--muted); margin-bottom: .75rem; }
+    .card-warning       { display: inline-block; font-size: .8rem; font-weight: 500; color: #9A4820; background: #FEF4EE; border: 1px solid #F5C9A0; border-radius: var(--r-sm); padding: .28rem .6rem; margin-bottom: .65rem; }
+    .card-actions       { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+    /* Action buttons */
+    .btn                { display: inline-flex; align-items: center; gap: .3rem; font-family: var(--f-ui); font-size: .78rem; font-weight: 500; text-decoration: none; padding: .35rem .78rem; border-radius: var(--r-pill); min-height: 34px; transition: background .15s, color .15s; }
+    .btn-primary        { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(42,124,111,.2); }
+    .btn-primary:hover  { background: var(--accent); color: #fff; }
+    .btn-secondary      { background: var(--hi-bg); color: #B85820; border: 1px solid rgba(232,118,58,.2); }
+    .btn-secondary:hover{ background: var(--hi); color: #fff; }
+
+    /* ════════════════════════════════════════
+       PLACEHOLDER (for TBC sections)
+    ════════════════════════════════════════ */
+    .placeholder {
+      background: linear-gradient(135deg, #f2ede5, var(--accent-bg));
+      border: 2px dashed var(--card-border); border-radius: var(--r-md);
+      padding: 3rem 1.5rem; text-align: center;
+    }
+    .placeholder-icon { font-size: 3rem; margin-bottom: .75rem; }
+    .placeholder-text { font-family: var(--f-body); font-style: italic; font-size: 1.05rem; color: var(--muted); }
+
+    /* ════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════ */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,.55);
+      text-align: center; padding: 3.5rem 1.5rem;
+    }
+    .footer-wordmark    { font-family: var(--f-display); font-size: 1.6rem; font-weight: 700; color: #fff; display: block; margin-bottom: .4rem; }
+    footer p            { font-family: var(--f-body); font-style: italic; font-size: .9rem; }
+    .back-to-top        { display: inline-block; margin-top: 1.5rem; font-family: var(--f-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; border: 1px solid rgba(255,255,255,.2); border-radius: var(--r-pill); padding: .38rem .85rem; transition: color .15s, border-color .15s; }
+    .back-to-top:hover  { color: rgba(255,255,255,.9); border-color: rgba(255,255,255,.5); }
+
+    /* ════════════════════════════════════════
+       SCROLL ANIMATIONS
+       Add class="fade-up" to any element.
+       JS below handles triggering.
+    ════════════════════════════════════════ */
+    .fade-up    { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
+    .fade-up.in { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── DESKTOP NAV ── -->
+<nav class="top-nav" aria-label="Site navigation">
+  <a href="#top" class="top-nav-brand">SITE TITLE</a>
+  <ul class="top-nav-links">
+    <!-- Duplicate for each section -->
+    <li><a href="#section-one">Section One</a></li>
+    <li><a href="#section-two">Section Two</a></li>
+  </ul>
+</nav>
+
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="bottom-nav" aria-label="Jump to section">
+  <!-- One <a> per section — keep to 5 max -->
+  <a href="#section-one">
+    <span class="bottom-nav-icon">🗺️</span>
+    <span class="bottom-nav-label">One</span>
+  </a>
+  <a href="#section-two">
+    <span class="bottom-nav-icon">📍</span>
+    <span class="bottom-nav-label">Two</span>
+  </a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="top" aria-label="Page introduction">
+  <div class="hero-bg" id="heroBg" role="img" aria-label="Hero image description"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">EYEBROW TEXT</p>
+    <h1 class="hero-title">TITLE</h1>
+    <p class="hero-sub">One-line subtitle here.</p>
+    <div class="hero-pills">
+      <a href="#section-one" class="hero-pill">
+        <span class="hero-pill-label">🗺️ Section One</span>
+        <span class="hero-pill-sub">sublabel</span>
+      </a>
+      <a href="#section-two" class="hero-pill">
+        <span class="hero-pill-label">📍 Section Two</span>
+        <span class="hero-pill-sub">sublabel</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- ── SECTION ONE ── -->
+  <section class="day-section" id="section-one" aria-labelledby="s1-h">
+    <!--
+      Chapter header photo:
+      Add a class like .ch-section-one to .chapter-header, then define in CSS:
+      .ch-section-one {
+        background-color: #1A2030;
+        background-image: url('https://images.unsplash.com/photo-PHOTO_ID?auto=format&fit=crop&w=1400&q=80');
+      }
+    -->
+    <div class="chapter-header" role="img" aria-label="Section image description">
+      <div class="chapter-overlay" aria-hidden="true"></div>
+      <div class="chapter-text">
+        <span class="section-tag">TAG · LABEL</span>
+        <h2 id="s1-h">Section One Title</h2>
+        <p class="chapter-note">Brief section subtitle or context</p>
+      </div>
+    </div>
+
+    <div class="section-body">
+      <p class="context-note fade-up">Optional introductory note for this section.</p>
+
+      <div class="cards">
+
+        <!--
+          CARD PATTERN — copy and repeat
+          Rail colours: rail-accent / rail-hi / rail-green / rail-blue / rail-purple / rail-red
+          Badge types:  badge-accent / badge-hi / badge-free / badge-warn / badge-book
+        -->
+        <article class="card fade-up">
+          <div class="rail rail-accent"></div>
+          <div class="card-inner">
+            <span class="card-emoji" aria-hidden="true">🎯</span>
+            <div class="card-body">
+              <div class="card-row1">
+                <h3 class="card-title">Card Title</h3>
+                <div class="badges">
+                  <span class="badge badge-free">Free</span>
+                </div>
+              </div>
+              <p class="card-desc">Card description — 1–3 sentences. Keep it readable on mobile.</p>
+              <div class="card-meta">
+                <span>🕐 Opening hours or detail</span>
+                <span>📌 Extra metadata</span>
+              </div>
+              <div class="card-actions">
+                <a href="LINK" target="_blank" rel="noopener" class="btn btn-primary">📍 Map</a>
+                <a href="LINK" target="_blank" rel="noopener" class="btn btn-secondary">🔗 Website</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Add more cards here -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION TWO ── -->
+  <section class="day-section" id="section-two" aria-labelledby="s2-h">
+    <div class="chapter-header" role="img" aria-label="Section image description">
+      <div class="chapter-overlay" aria-hidden="true"></div>
+      <div class="chapter-text">
+        <span class="section-tag">TAG · LABEL</span>
+        <h2 id="s2-h">Section Two Title</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <!-- Placeholder for TBC sections -->
+      <div class="placeholder fade-up">
+        <div class="placeholder-icon">🌟</div>
+        <p class="placeholder-text">Content coming soon.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-wordmark">SITE TITLE</span>
+  <p>Tagline or credit line here.</p>
+  <a href="#top" class="back-to-top">↑ Back to top</a>
+</footer>
+
+<script>
+  // ── Scroll-triggered staggered fade-up ──
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const siblings = [...entry.target.parentElement.children]
+        .filter(el => el.classList.contains('fade-up'));
+      const delay = siblings.indexOf(entry.target) * 75;
+      setTimeout(() => entry.target.classList.add('in'), delay);
+      fadeObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+  // ── Active bottom nav link by visible section ──
+  const sections = document.querySelectorAll('.day-section');
+  const navLinks = document.querySelectorAll('.bottom-nav a');
+  const navObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      navLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.bottom-nav a[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(s => navObserver.observe(s));
+
+  // ── Hero image: load then trigger subtle unzoom ──
+  // Replace the URL below with your actual hero image
+  const HERO_IMAGE_URL = 'https://images.unsplash.com/photo-1527004013197-933b162c4f24?auto=format&fit=crop&w=1800&q=80';
+  const heroBg = document.getElementById('heroBg');
+  const img = new Image();
+  img.onload = () => {
+    heroBg.style.backgroundImage = `url('${img.src}')`;
+    requestAnimationFrame(() => heroBg.classList.add('loaded'));
+  };
+  img.src = HERO_IMAGE_URL;
+</script>
+</body>
+</html>
