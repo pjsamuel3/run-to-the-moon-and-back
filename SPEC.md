@@ -154,7 +154,75 @@ These appear as markers on the progress track:
 ---
 
 ## Out of scope (v1)
-- Live Strava API sync (manual state.json updates only for now)
+- ~~Live Strava API sync~~ → **now v2, see below**
 - Authentication / runner self-service logging
 - Comments or social features
 - Historical charts / graphs
+
+---
+
+## Strava Integration — v2 spec
+
+### Architecture: GitHub Actions sync (Option A)
+
+A scheduled GitHub Action runs every 3 hours:
+1. Refreshes the Strava access token using a stored refresh token
+2. Fetches recent activities from the Strava club feed (`/clubs/{id}/activities`)
+3. Merges new activities into `state.json` (deduplicates by `strava_activity_id`)
+4. Updates each runner's `total_km` and recent `runs[]`
+5. Commits the updated `state.json` to `main` → triggers GitHub Pages redeploy
+
+No backend needed. No user-facing auth. Admin sets up once via a one-time local OAuth script.
+
+### Secrets (stored in GitHub repo Settings → Secrets)
+
+| Secret | Description |
+|--------|-------------|
+| `STRAVA_CLIENT_ID` | Strava API app Client ID |
+| `STRAVA_CLIENT_SECRET` | Strava API app Client Secret |
+| `STRAVA_REFRESH_TOKEN` | Long-lived refresh token (from one-time auth flow) |
+| `STRAVA_CLUB_ID` | Strava Club ID for the challenge group |
+
+### state.json schema additions
+
+```json
+{
+  "strava_club_id": 12345,
+  "last_strava_sync": "2026-04-18T10:00:00Z",
+  "runners": [
+    {
+      "strava_athlete_id": 3382216,
+      "runs": [
+        { "strava_activity_id": 99999, ... }
+      ]
+    }
+  ]
+}
+```
+
+- `strava_athlete_id` — links a runner to their Strava account for activity matching
+- `strava_activity_id` — used for deduplication (activities are never double-counted)
+- Runner `total_km` is **accumulated** (added to, never recalculated from scratch) so historical activities outside the API window are preserved
+
+### Scripts
+
+| Script | Purpose | When to run |
+|--------|---------|-------------|
+| `scripts/strava-auth.py` | One-time OAuth flow → prints refresh token | Once, by admin |
+| `scripts/list-clubs.py` | Lists athlete's Strava clubs with IDs | Once, to find club ID |
+| `scripts/init-members.py` | Replaces runners with real club members | Once, after club chosen |
+| `scripts/sync-strava.py` | Fetches new activities, updates state.json | By GitHub Action |
+
+### GitHub Actions schedule
+
+- Every 3 hours via cron (`0 */3 * * *`)
+- Manually dispatchable via `workflow_dispatch`
+- Commit message: `chore: sync Strava data [skip ci]` (prevents re-trigger loop)
+
+### Matching logic
+
+Activities are matched to runners by `athlete.id` (Strava athlete ID), NOT by name. This is robust — Strava abbreviates last names in club feeds (e.g. "Pete S.") so name matching is unreliable.
+
+### Privacy
+
+Only activities visible to the club are synced. Runners with "Only Me" privacy won't contribute — this is intentional and documented.
