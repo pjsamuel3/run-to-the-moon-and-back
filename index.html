@@ -354,7 +354,7 @@
       border-radius: var(--r-md);
       padding: .875rem 1rem;
       display: grid;
-      grid-template-columns: 2.75rem 1fr auto auto;
+      grid-template-columns: 2.75rem 1fr auto;
       align-items: center;
       gap: .625rem;
       transition: transform .2s, border-color .2s, box-shadow .2s;
@@ -389,16 +389,24 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .runner-sub {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-top: .1rem;
+    }
     .runner-handle {
       font-family: var(--f-mono);
       font-size: .67rem;
       color: var(--muted);
+      flex-shrink: 0;
     }
 
     .level-badge {
       font-family: var(--f-mono);
-      font-size: .6rem;
-      padding: .2rem .45rem;
+      font-size: .58rem;
+      padding: .15rem .4rem;
       border-radius: var(--r-pill);
       border: 1px solid currentColor;
       font-weight: 600;
@@ -879,10 +887,10 @@
           <div class="runner-rank ${rankClass}">${rankEmoji}</div>
           <div class="runner-info">
             <div class="runner-name">${runner.name}</div>
-            <div class="runner-handle">@${runner.strava_handle}</div>
-          </div>
-          <div class="level-badge" style="color:${level.color};animation-delay:${i * .04 + .15}s">
-            ${level.emoji} ${level.title}
+            <div class="runner-sub">
+              <span class="runner-handle">@${runner.strava_handle}</span>
+              <span class="level-badge" style="color:${level.color};animation-delay:${i * .04 + .15}s">${level.emoji} ${level.title}</span>
+            </div>
           </div>
           <div class="runner-distance">
             <span class="runner-km">${runner.total_km.toLocaleString('en-AU',{maximumFractionDigits:1})}<span class="runner-km-unit"> km</span></span>
