@@ -1,0 +1,10 @@
+name = "moon-strava-sync"
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+
+[triggers]
+crons = ["0 */3 * * *"]
+
+[[kv_namespaces]]
+binding = "STATE"
+id = "0719954c989e4d158468ac5f59cf7f66"

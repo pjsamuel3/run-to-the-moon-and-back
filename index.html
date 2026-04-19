@@ -1049,7 +1049,7 @@
     async function init() {
       drawStars();
       try {
-        const res  = await fetch('./state.json');
+        const res  = await fetch('https://moon-strava-sync.pjsamuel3.workers.dev');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
