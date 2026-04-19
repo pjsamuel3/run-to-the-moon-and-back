@@ -617,10 +617,26 @@
       height: 300px;
       z-index: 2;
       pointer-events: none;
-      filter: drop-shadow(0 0 60px rgba(140, 200, 255, 0.22))
-              drop-shadow(0 0 20px rgba(100, 160, 255, 0.15));
+      border-radius: 50%;
+      filter: drop-shadow(0 0 55px rgba(140, 200, 255, 0.22))
+              drop-shadow(0 0 18px rgba(100, 160, 255, 0.14));
     }
-    #moon-canvas { display: block; width: 100%; height: 100%; }
+    /* auto-spin lives here — compositor-only, zero JS */
+    #moon-auto {
+      width: 100%; height: 100%;
+      border-radius: 50%; overflow: hidden;
+      background: #8a8e94;
+      animation: moon-auto-spin 200s linear infinite;
+      will-change: transform;
+    }
+    /* scroll rotation driven by CSS custom property */
+    #moon-img {
+      display: block; width: 100%; height: 100%;
+      object-fit: cover; border-radius: 50%;
+      transform: rotate(var(--moon-scroll, 0turn));
+      will-change: transform;
+    }
+    @keyframes moon-auto-spin { to { transform: rotate(1turn); } }
     @media (max-width: 640px) {
       #moon-wrap { width: 180px; height: 180px; top: -68px; right: -68px; }
     }
@@ -760,7 +776,11 @@
   </div><!-- /#app -->
 
   <!-- 3D MOON (fixed top-right, scroll-driven) -->
-  <div id="moon-wrap"><canvas id="moon-canvas"></canvas></div>
+  <div id="moon-wrap">
+    <div id="moon-auto">
+      <img id="moon-img" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg" alt="" draggable="false">
+    </div>
+  </div>
 
   <script>
     /* ── CONSTANTS ─────────────────────────────────────────── */
@@ -1014,89 +1034,14 @@
       document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
     }
 
-    /* ── 3D MOON ───────────────────────────────────────────── */
+    /* ── MOON (CSS-driven, no Three.js) ───────────────────── */
     function initMoon() {
-      const wrap   = document.getElementById('moon-wrap');
-      const canvas = document.getElementById('moon-canvas');
-
-      const script  = document.createElement('script');
-      script.src    = 'https://unpkg.com/three@0.160.0/build/three.min.js';
-      script.onload = () => {
-        const W = wrap.offsetWidth, H = wrap.offsetHeight;
-        const mobile = W < 220;
-
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !mobile });
-        /* cap pixel ratio lower on mobile — biggest single perf win */
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1 : 1.5));
-        renderer.setSize(W, H);
-
-        const scene  = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
-        /* z=3.2 gives the sphere room to breathe inside the frustum — prevents edge clipping */
-        camera.position.z = 3.2;
-
-        /* sunlight — upper-left warm */
-        const sun = new THREE.DirectionalLight(0xfff5e4, 2.4);
-        sun.position.set(-2, 1.5, 1.2);
-        scene.add(sun);
-
-        /* earthshine — faint blue fill from lower-right */
-        const earth = new THREE.DirectionalLight(0x5588ff, 0.15);
-        earth.position.set(2.5, -1, 0.5);
-        scene.add(earth);
-
-        /* very low ambient so terminator line stays crisp */
-        scene.add(new THREE.AmbientLight(0x0d1a33, 0.6));
-
-        /* moon sphere — fewer segments on mobile, still smooth */
-        const segs = mobile ? 48 : 64;
-        const geo  = new THREE.SphereGeometry(1, segs, segs);
-        const mat  = new THREE.MeshStandardMaterial({ roughness: 0.94, metalness: 0.0 });
-        const moon = new THREE.Mesh(geo, mat);
-        scene.add(moon);
-
-        /* atmosphere rim — barely-there blue halo */
-        const atmMat = new THREE.MeshBasicMaterial({
-          color: 0x2244aa, transparent: true, opacity: 0.05, side: THREE.BackSide,
-        });
-        scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.02, 24, 24), atmMat));
-
-        /* load texture */
-        new THREE.TextureLoader().load(
-          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg',
-          tex => { tex.colorSpace = THREE.SRGBColorSpace; mat.map = tex; mat.needsUpdate = true; }
-        );
-
-        /* scroll-driven rotation — faster lerp so mobile doesn't lag behind */
-        let targetRotY = 0, smoothRotY = 0, autoY = 0;
-        window.addEventListener('scroll', () => {
-          const max = document.documentElement.scrollHeight - window.innerHeight;
-          targetRotY = max > 0 ? (window.scrollY / max) * Math.PI * 3 : 0;
-        }, { passive: true });
-
-        let rafId, paused = false;
-        function loop() {
-          rafId = requestAnimationFrame(loop);
-          if (paused) return;
-          autoY      += 0.0005;
-          smoothRotY += (targetRotY - smoothRotY) * (mobile ? 0.1 : 0.06);
-          moon.rotation.y = autoY + smoothRotY;
-          renderer.render(scene, camera);
-        }
-        loop();
-
-        /* pause rendering when tab hidden — free the GPU */
-        document.addEventListener('visibilitychange', () => { paused = document.hidden; });
-
-        /* responsive */
-        new ResizeObserver(() => {
-          const w = wrap.offsetWidth, h = wrap.offsetHeight;
-          renderer.setSize(w, h);
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-        }).observe(wrap);
-      };
-      document.head.appendChild(script);
+      const root = document.documentElement;
+      window.addEventListener('scroll', () => {
+        const max   = document.documentElement.scrollHeight - window.innerHeight;
+        const turns = max > 0 ? (window.scrollY / max) * 1.5 : 0;
+        root.style.setProperty('--moon-scroll', turns + 'turn');
+      }, { passive: true });
     }
 
     /* ── INIT ──────────────────────────────────────────────── */
