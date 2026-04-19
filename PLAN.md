@@ -1,15 +1,9 @@
 # Run to the Moon and Back — Plan
 
-## In Progress
-
-- [ ] **feature/strava-sync** — GitHub Actions sync from Strava club (this PR)
-
----
-
 ## Upcoming
 
 - [ ] UI: "Synced from Strava" badge on hero showing last sync timestamp
-- [ ] Playwright: add test for Strava sync workflow (mock state.json with strava fields)
+- [ ] Playwright: add test for Strava sync workflow (mock Worker response)
 
 ---
 
@@ -25,7 +19,12 @@
 - [x] scripts/strava-auth.py — one-time OAuth flow
 - [x] scripts/list-clubs.py — list athlete clubs
 - [x] scripts/init-members.py — initialize runners from club members
-- [x] scripts/sync-strava.py — sync script used by GH Action
-- [x] .github/workflows/sync-strava.yml — runs every 3 hours
-- [x] GitHub Secrets set: STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_REFRESH_TOKEN, STRAVA_CLUB_ID
+- [x] scripts/sync-strava.py — local sync script (superseded by Worker)
+- [x] .github/workflows/sync-strava.yml — GitHub Actions sync (retired, replaced by Worker cron)
+- [x] GitHub Secrets retired — secrets now live in Cloudflare Worker
 - [x] Initial sync: 19 real activities from Fit 156 (club 1287260)
+- [x] feature/3d-moon — CSS moon with horizontal globe-spin (PR #3, merged)
+- [x] Cloudflare Worker (moon-strava-sync) — replaces GitHub Actions
+  - KV cache, 3-hour cron, auto-rotating refresh token
+  - URL: https://moon-strava-sync.pjsamuel3.workers.dev
+- [x] chore/retire-github-actions — remove Actions workflow + GitHub Secrets (this PR)
