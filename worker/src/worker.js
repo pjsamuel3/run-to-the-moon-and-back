@@ -11,7 +11,7 @@
  *   Keys: "state" (full state JSON), "refresh_token" (rotated token)
  */
 
-const CACHE_TTL_MS  = 3 * 60 * 60 * 1000;  // 3 hours
+const CACHE_TTL_MS  = 60 * 60 * 1000;  // 1 hour
 const MAX_RUNS      = 10;                    // runs kept per runner
 const GOAL_KM       = 768800;
 
