@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-19T07:27:32Z",
+  "last_updated": "2026-04-19T13:14:15Z",
   "goal_km": 768800,
   "challenge_start": "2026-01-01",
   "runners": [
@@ -14,8 +14,14 @@
       "name": "Ian R",
       "strava_handle": "ian.r",
       "strava_name_key": "Ian_R",
-      "total_km": 72.22,
+      "total_km": 82.76,
       "runs": [
+        {
+          "date": "2026-04-19",
+          "distance_km": 10.54,
+          "activity": "Run",
+          "name": "Morning Run"
+        },
         {
           "date": "2026-04-19",
           "distance_km": 4.88,
@@ -150,5 +156,5 @@
     }
   ],
   "strava_club_id": 1287260,
-  "last_strava_sync": "2026-04-19T07:27:32Z"
+  "last_strava_sync": "2026-04-19T13:14:15Z"
 }
