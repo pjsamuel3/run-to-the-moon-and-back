@@ -618,25 +618,17 @@
       z-index: 2;
       pointer-events: none;
       border-radius: 50%;
+      overflow: hidden;
       filter: drop-shadow(0 0 55px rgba(140, 200, 255, 0.22))
               drop-shadow(0 0 18px rgba(100, 160, 255, 0.14));
     }
-    /* auto-spin lives here — compositor-only, zero JS */
-    #moon-auto {
-      width: 100%; height: 100%;
-      border-radius: 50%; overflow: hidden;
-      background: #8a8e94;
-      animation: moon-auto-spin 200s linear infinite;
-      will-change: transform;
+    /* texture scrolls horizontally — fakes globe Y-axis rotation */
+    #moon-sphere {
+      width: 100%;
+      height: 100%;
+      background: #8a8e94 url('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg')
+                  0 30% / auto 140% repeat-x;
     }
-    /* scroll rotation driven by CSS custom property */
-    #moon-img {
-      display: block; width: 100%; height: 100%;
-      object-fit: cover; border-radius: 50%;
-      transform: rotate(var(--moon-scroll, 0turn));
-      will-change: transform;
-    }
-    @keyframes moon-auto-spin { to { transform: rotate(1turn); } }
     @media (max-width: 640px) {
       #moon-wrap { width: 180px; height: 180px; top: -68px; right: -68px; }
     }
@@ -776,11 +768,7 @@
   </div><!-- /#app -->
 
   <!-- 3D MOON (fixed top-right, scroll-driven) -->
-  <div id="moon-wrap">
-    <div id="moon-auto">
-      <img id="moon-img" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg" alt="" draggable="false">
-    </div>
-  </div>
+  <div id="moon-wrap"><div id="moon-sphere"></div></div>
 
   <script>
     /* ── CONSTANTS ─────────────────────────────────────────── */
@@ -1034,13 +1022,23 @@
       document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
     }
 
-    /* ── MOON (CSS-driven, no Three.js) ───────────────────── */
+    /* ── MOON ──────────────────────────────────────────────── */
     function initMoon() {
-      const root = document.documentElement;
+      const sphere = document.getElementById('moon-sphere');
+      const TEX_W  = 1024;           // texture pixel width
+      const PERIOD = 90000;          // ms for one full auto-rotation
+      let autoX = 0, scrollX = 0, last = performance.now();
+
+      (function tick(t) {
+        requestAnimationFrame(tick);
+        autoX = (autoX + (t - last) * (TEX_W / PERIOD)) % TEX_W;
+        last  = t;
+        sphere.style.backgroundPositionX = ((autoX + scrollX) % TEX_W) + 'px';
+      })(last);
+
       window.addEventListener('scroll', () => {
-        const max   = document.documentElement.scrollHeight - window.innerHeight;
-        const turns = max > 0 ? (window.scrollY / max) * 1.5 : 0;
-        root.style.setProperty('--moon-scroll', turns + 'turn');
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        scrollX = max > 0 ? (window.scrollY / max) * TEX_W * 1.5 : 0;
       }, { passive: true });
     }
 
