@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-19T09:52:50Z",
+  "last_updated": "2026-04-19T07:27:32Z",
   "goal_km": 768800,
   "challenge_start": "2026-01-01",
   "runners": [
@@ -14,58 +14,52 @@
       "name": "Ian R",
       "strava_handle": "ian.r",
       "strava_name_key": "Ian_R",
-      "total_km": 82.76,
+      "total_km": 72.22,
       "runs": [
         {
-          "date": "",
-          "distance_km": 10.54,
-          "activity": "Run",
-          "name": "Morning Run"
-        },
-        {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 4.88,
           "activity": "Run",
           "name": "Afternoon Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 12.62,
           "activity": "Run",
           "name": "Morning Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 12.49,
           "activity": "Run",
           "name": "Morning Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.78,
           "activity": "Run",
           "name": "Afternoon Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 10.8,
           "activity": "Run",
           "name": "Morning Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 4.54,
           "activity": "Hike",
           "name": "Lunch Hike"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 12.27,
           "activity": "Run",
           "name": "Morning Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 8.84,
           "activity": "Run",
           "name": "Morning Run"
@@ -79,31 +73,31 @@
       "total_km": 25.88,
       "runs": [
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.15,
           "activity": "Run",
           "name": "Mollyfart \ud83d\udd25"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.3,
           "activity": "Run",
           "name": "L\u00f8p med hund"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 4.1,
           "activity": "Run",
           "name": "Jogg med hund"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.2,
           "activity": "Run",
           "name": "Kom i gang etter p\u00e5ske \ud83d\udc23"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 6.13,
           "activity": "Run",
           "name": "25 \u00e5r siden rekrutten og joggel\u00f8ypa p\u00e5 V\u00e6rnes."
@@ -117,37 +111,37 @@
       "total_km": 27.48,
       "runs": [
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 4.33,
           "activity": "Walk",
           "name": "Afternoon Walk"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 4.82,
           "activity": "Walk",
           "name": "Afternoon Walk"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.8,
           "activity": "Run",
           "name": "Night Run"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 3.23,
           "activity": "Walk",
           "name": "Evening Walk"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 5.64,
           "activity": "Walk",
           "name": "Lunch Walk"
         },
         {
-          "date": "",
+          "date": "2026-04-19",
           "distance_km": 3.66,
           "activity": "Walk",
           "name": "Morning Walk"
@@ -156,5 +150,5 @@
     }
   ],
   "strava_club_id": 1287260,
-  "last_strava_sync": "2026-04-19T09:52:50Z"
+  "last_strava_sync": "2026-04-19T07:27:32Z"
 }

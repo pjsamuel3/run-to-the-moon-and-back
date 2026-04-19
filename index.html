@@ -807,7 +807,10 @@
     }
 
     function relTime(dateStr) {
-      const ms   = Date.now() - new Date(dateStr).getTime();
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return '';
+      const ms   = Date.now() - d.getTime();
       const hrs  = ms / 3_600_000;
       const days = ms / 86_400_000;
       if (hrs  < 1)  return 'just now';

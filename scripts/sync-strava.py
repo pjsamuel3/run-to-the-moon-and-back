@@ -113,7 +113,10 @@ def main():
         if distance_km < 0.1:
             continue
 
-        start_date   = (activity.get("start_date") or "")[:10]
+        # Club activities don't expose start_date for privacy — fall back to today
+        start_date   = (activity.get("start_date") or activity.get("start_date_local") or "")[:10]
+        if not start_date:
+            start_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         activity_type = activity.get("type", "Run")
         activity_name = activity.get("name") or activity_type
 
