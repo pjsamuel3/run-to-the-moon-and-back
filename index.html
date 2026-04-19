@@ -1023,14 +1023,17 @@
       script.src    = 'https://unpkg.com/three@0.160.0/build/three.min.js';
       script.onload = () => {
         const W = wrap.offsetWidth, H = wrap.offsetHeight;
+        const mobile = W < 220;
 
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !mobile });
+        /* cap pixel ratio lower on mobile — biggest single perf win */
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1 : 1.5));
         renderer.setSize(W, H);
 
         const scene  = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
-        camera.position.z = 2.8;
+        const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+        /* z=3.2 gives the sphere room to breathe inside the frustum — prevents edge clipping */
+        camera.position.z = 3.2;
 
         /* sunlight — upper-left warm */
         const sun = new THREE.DirectionalLight(0xfff5e4, 2.4);
@@ -1045,8 +1048,9 @@
         /* very low ambient so terminator line stays crisp */
         scene.add(new THREE.AmbientLight(0x0d1a33, 0.6));
 
-        /* moon sphere */
-        const geo  = new THREE.SphereGeometry(1, 96, 96);
+        /* moon sphere — fewer segments on mobile, still smooth */
+        const segs = mobile ? 48 : 64;
+        const geo  = new THREE.SphereGeometry(1, segs, segs);
         const mat  = new THREE.MeshStandardMaterial({ roughness: 0.94, metalness: 0.0 });
         const moon = new THREE.Mesh(geo, mat);
         scene.add(moon);
@@ -1055,7 +1059,7 @@
         const atmMat = new THREE.MeshBasicMaterial({
           color: 0x2244aa, transparent: true, opacity: 0.05, side: THREE.BackSide,
         });
-        scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.025, 32, 32), atmMat));
+        scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.02, 24, 24), atmMat));
 
         /* load texture */
         new THREE.TextureLoader().load(
@@ -1063,21 +1067,26 @@
           tex => { tex.colorSpace = THREE.SRGBColorSpace; mat.map = tex; mat.needsUpdate = true; }
         );
 
-        /* scroll-driven rotation */
+        /* scroll-driven rotation — faster lerp so mobile doesn't lag behind */
         let targetRotY = 0, smoothRotY = 0, autoY = 0;
         window.addEventListener('scroll', () => {
           const max = document.documentElement.scrollHeight - window.innerHeight;
           targetRotY = max > 0 ? (window.scrollY / max) * Math.PI * 3 : 0;
         }, { passive: true });
 
-        (function loop() {
-          requestAnimationFrame(loop);
+        let rafId, paused = false;
+        function loop() {
+          rafId = requestAnimationFrame(loop);
+          if (paused) return;
           autoY      += 0.0005;
-          smoothRotY += (targetRotY - smoothRotY) * 0.035;
+          smoothRotY += (targetRotY - smoothRotY) * (mobile ? 0.1 : 0.06);
           moon.rotation.y = autoY + smoothRotY;
-          moon.rotation.x = Math.sin(autoY * 0.4) * 0.07;
           renderer.render(scene, camera);
-        })();
+        }
+        loop();
+
+        /* pause rendering when tab hidden — free the GPU */
+        document.addEventListener('visibilitychange', () => { paused = document.hidden; });
 
         /* responsive */
         new ResizeObserver(() => {
